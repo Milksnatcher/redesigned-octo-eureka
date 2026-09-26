@@ -14,17 +14,18 @@ de Supabase (base de datos Postgres alojada).
    y pulsa **Run**. Esto crea las tablas `users`, `orders` y `payments`, y
    activa la sincronización en tiempo real.
 
-   ⚠️ Si ya tenías una versión anterior de estas tablas (de una versión previa
-   de esta app), el esquema ha cambiado de forma incompatible — se ha añadido
-   la tabla `users` y varias columnas nuevas. Antes de ejecutar `schema.sql`,
-   ejecuta primero esto en el mismo SQL Editor para partir de cero:
+   ⚠️ If you had an earlier version of these tables, the schema has changed
+   again — the net-level `payments` table is gone, replaced by a proper
+   per-order, per-person ledger (`order_payments`), and `revolut_handle` has
+   been removed from `users`. Run this first to start clean:
    ```sql
    drop table if exists payments;
+   drop table if exists order_payments;
    drop table if exists orders;
    drop table if exists users;
    ```
-   Esto borra cualquier pedido o balance que tuvieras cargado — no hay forma
-   de migrar los datos antiguos al nuevo formato automáticamente.
+   This deletes any pedidos/balances you had loaded — there's no automatic
+   migration from the old shape.
 4. Ve a **Project Settings → API**. Copia:
    - **Project URL**
    - **anon public** key (la clave pública, NO la `service_role`)
@@ -80,46 +81,70 @@ como la versión que probaste, pero sin depender de una cuenta de Claude.
 
 ## Novedades de esta versión
 
-- **Pestaña Usuarios**: añade a cada persona una vez (nombre, teléfono,
-  usuario de Revolut). El organizador y las personas de cada pedido se
-  eligen ahora de una lista desplegable, así los nombres siempre coinciden
-  en Balances.
-- **Pedidos plegables**: cada pedido se muestra colapsado (nombre +
-  organizador); toca para expandir y ver la tabla completa. Botones para
-  **Editar** (cambiar transporte, productos, precios) y **Marcar
-  completado** (avisa si aún quedan saldos pendientes relacionados, pero
-  permite continuar igualmente).
-- **Pedidos activos vs. completados**: un pedido marcado como completado
-  sigue en "Pedidos" con una insignia verde durante 10 días, y después pasa
-  automáticamente a la pestaña **Completados**. Los pedidos completados
-  siguen disponibles para copiar al crear uno nuevo.
-- **Copiar pedido anterior**: en "Nuevo pedido", un desplegable permite
-  copiar el proveedor, el transporte y los productos (editables) de
-  cualquier pedido previo. Las personas nunca se copian — siempre empieza
-  vacío.
-- **Marcar pagado con registro**: al marcar un saldo como pagado, se pide
-  quién lo marca y la fecha (hoy por defecto, editable). Queda guardado y
-  visible en la lista.
-- **Historial de pagos**: un saldo pagado permanece en la lista principal
-  10 días y después pasa a un historial aparte, mostrando los 5 más
-  recientes con un botón para ir mostrando más de 10 en 10. Se puede
-  reabrir ("Marcar pendiente") desde cualquiera de las dos listas.
-- **Bizum y Revolut**: si la persona tiene teléfono, aparece un botón
-  Bizum que copia un resumen listo para pegar. Si tiene usuario de Revolut,
-  aparece un botón que abre un enlace de pago con el importe
-  precumplimentado.
-- **Exportar cada pedido** a CSV o Excel (.xlsx), con la opción de que los
-  productos aparezcan en filas o en columnas, y una columna/fila de
-  totales — pensado para pegar en la plantilla propia de cada proveedor.
+- **Fecha límite de pedido**: cada pedido tiene una fecha; pasada esa fecha,
+  la tabla de personas/cantidades se bloquea (solo lectura) hasta que edites
+  el pedido y amplíes la fecha.
+- **Pedido más compacto**, colapsado por defecto mostrando solo el nombre y
+  el organizador; toca para expandir.
+- **Cierre automático real**: un pedido se marca "Completo" en cuanto todas
+  las personas (menos el organizador, que no se paga a sí mismo) han pagado
+  su parte — sin que nadie tenga que tocar nada. El botón "Marcar
+  completado" sigue existiendo como cierre manual/forzado, y avisa si
+  quedan saldos sin cobrar antes de confirmar. Si luego se reabre un pago
+  individual, el pedido vuelve a activo automáticamente (salvo que se cerró
+  con el botón manual, que es permanente hasta pulsar "Reabrir pedido").
+- Dentro de cada pedido expandido: **recaudado / pendiente** en cifras, y
+  los nombres se marcan en verde y tachado (pagado) o en rojo (pendiente)
+  una vez pasada la fecha límite.
+- **Balances en tres bloques**: pagos requeridos (con algún pedido ya
+  pasado de fecha), pagos pendientes (todavía en plazo), e historial
+  (pagado hace 10+ días). Un saldo neto se archiva al historial solo
+  cuando lleva 10 días completamente saldado — si surge una deuda nueva
+  entre esas dos personas, vuelve a aparecer como pendiente automáticamente.
+- **Cada saldo neto es desplegable**: muestra los pedidos concretos que lo
+  componen (proveedor, fecha, quién debe a quién), y cada uno de esos se
+  puede desplegar otra vez para ver qué compró esa persona. Cada pedido
+  individual dentro del desglose se puede marcar pagado o pendiente por
+  separado — con Bizum, quién lo marca y la fecha — sin esperar al saldo
+  neto completo. Esto se refleja al instante en el pedido original, en el
+  saldo neto, y en las cifras de recaudado/pendiente.
+- Los registros de pago dicen ahora **"Marcado por"** en vez de "Por",
+  para no dar a entender que esa persona es quien pagó (puede ser el
+  organizador confirmando el cobro).
+- **Exportar movimientos** por cada saldo neto: descarga un CSV con todos
+  los pedidos que componen esa relación entre dos personas, su estado y
+  quién los marcó — un extracto de cuenta entre ambos.
+- Se han quitado todas las referencias a Revolut (botón, campo de usuario,
+  enlaces). Si quieres recuperarlo más adelante, dímelo.
 
-## Nota sobre el enlace de Revolut
+## Importar productos de un proveedor
 
-El botón de Revolut usa el formato `https://revolut.me/<usuario>/<importe>EUR`.
-Este formato de precumplimentado de importe no está documentado oficialmente
-por Revolut de forma pública — funciona en la práctica según integraciones de
-terceros, pero **pruébalo una vez con un importe pequeño antes de confiar en
-él para el grupo**. Si el importe no se rellena solo, el enlace abrirá igualmente
-el perfil de Revolut de la persona para que paguen manualmente.
+En "Nuevo pedido" (y al editar uno existente) hay dos formas de traer los
+nombres de producto tal cual, sin volver a teclearlos:
+
+- **Pegar lista**: copia la columna de productos de la plantilla del
+  proveedor (Excel, Word, PDF con tabla, lo que sea) y pégala en el cuadro
+  de texto. Si el precio va en la misma línea (como al copiar una fila de
+  Excel o de una tabla de Word), se detecta solo; si no, se importa solo el
+  nombre y el precio se rellena a mano.
+- **Subir archivo (Excel o CSV)**: sube el archivo del proveedor, aparece
+  una vista previa de las primeras filas con columnas A, B, C…, eliges cuál
+  es la columna del nombre y, si quieres, la del precio, y desde qué fila
+  empezar (para saltar cabeceras). Importa todos los productos de golpe.
+
+En ambos casos, los productos importados se añaden a la lista normal y
+siguen siendo editables ahí — puedes corregir un nombre o un precio antes
+de crear el pedido, o más tarde volviendo a editarlo.
+
+Los archivos Word (.docx) no se leen directamente todavía — para esos,
+usa "Pegar lista": abre la tabla en Word, selecciona la columna, copia y
+pega en el cuadro de texto.
+
+La importación asistida por IA (para que reconozca la columna de productos
+sola, sin que elijas tú cuál es) necesitaría un pequeño servidor propio
+para guardar la clave de la API de forma segura — es un paso más grande,
+así que queda para más adelante si te sigue haciendo falta después de
+probar estas dos opciones.
 
 ## Nota de seguridad
 

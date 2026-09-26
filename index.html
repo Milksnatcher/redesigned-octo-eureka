@@ -12,81 +12,99 @@
   --bg:#FAF9F4; --panel:#FFFFFF; --ink:#1F2A22; --sub:#5B6B60;
   --line:#E4E0D4; --brand:#2F6F4E; --brand-ink:#EAF3EC;
   --amber:#B5761A; --amber-bg:#FBF0DF; --owe:#A24B3B; --owe-bg:#FBEAE5;
-  --paid:#2F6F4E; --paid-bg:#E7F1EA; --revolut:#0666EB; --revolut-bg:#E8F0FE; --radius:14px;
+  --paid:#2F6F4E; --paid-bg:#E7F1EA; --radius:12px;
 }
 @media (prefers-color-scheme: dark){
   :root{
     --bg:#171B18; --panel:#1F2521; --ink:#EDEFEA; --sub:#9AA79E;
     --line:#2C332D; --brand:#63B98A; --brand-ink:#12241A;
     --amber:#E3A94E; --amber-bg:#2E2617; --owe:#E0806D; --owe-bg:#301C18;
-    --paid:#63B98A; --paid-bg:#16281F; --revolut:#6FA8FF; --revolut-bg:#132238;
+    --paid:#63B98A; --paid-bg:#16281F;
   }
 }
 *{box-sizing:border-box;}
 html,body{height:100%;}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;line-height:1.45;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;line-height:1.42;}
 h1,h2,h3,.brand{font-family:'Space Grotesk',sans-serif;}
 .wrap{max-width:680px;margin:0 auto;padding:0 16px 96px;}
-header.top{position:sticky;top:0;background:var(--bg);z-index:10;padding:18px 16px 10px;border-bottom:1px solid var(--line);}
+header.top{position:sticky;top:0;background:var(--bg);z-index:10;padding:14px 16px 8px;border-bottom:1px solid var(--line);}
 header.top .wrap{padding:0;display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
-.brand{font-size:19px;font-weight:700;letter-spacing:-0.01em;}
+.brand{font-size:18px;font-weight:700;letter-spacing:-0.01em;}
 .brand span{color:var(--brand);}
 .status{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
 .status.ok{background:var(--paid-bg);color:var(--paid);}
 .status.bad{background:var(--owe-bg);color:var(--owe);}
-nav.tabs{display:flex;gap:6px;margin-top:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-nav.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--sub);padding:9px 12px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
+nav.tabs{display:flex;gap:6px;margin-top:10px;}
+nav.tabs button{flex:1;border:1px solid var(--line);background:var(--panel);color:var(--sub);padding:9px 11px;border-radius:9px;font-size:13.5px;font-weight:600;cursor:pointer;white-space:nowrap;}
 nav.tabs button.active{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);}
-main{padding-top:16px;}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
-.card h2{margin:0 0 4px;font-size:16px;}
-.muted{color:var(--sub);font-size:13px;}
-.empty{text-align:center;padding:40px 20px;color:var(--sub);}
+.burger-btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);width:34px;height:34px;border-radius:9px;font-size:16px;cursor:pointer;flex:0 0 auto;}
+.menu-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20;display:none;}
+.menu-backdrop.open{display:block;}
+.menu-panel{position:absolute;top:0;right:0;background:var(--panel);border-left:1px solid var(--line);width:78vw;max-width:280px;height:100%;padding:18px 14px;box-shadow:-4px 0 16px rgba(0,0,0,.15);}
+.menu-panel h3{margin:0 0 12px;font-size:15px;}
+.menu-panel button{display:block;width:100%;text-align:left;background:none;border:none;padding:12px 8px;font-size:14.5px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--line);}
+.menu-panel button:last-child{border-bottom:none;}
+.fab{position:fixed;bottom:24px;right:20px;width:54px;height:54px;border-radius:50%;background:var(--brand);color:var(--brand-ink);border:none;font-size:26px;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;z-index:15;line-height:1;text-align:center;padding:0;}
+.page-title{font-size:13px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px;}
+.page-sub{font-size:12.5px;color:var(--sub);margin-bottom:12px;}
+.hint-link{background:none;border:none;color:var(--brand);font-size:12.5px;cursor:pointer;text-decoration:underline;padding:0;margin-top:4px;}
+main{padding-top:12px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;}
+.card h2{margin:0 0 2px;font-size:15.5px;}
+.muted{color:var(--sub);font-size:12.5px;}
+.empty{text-align:center;padding:32px 20px;color:var(--sub);}
 .empty h3{color:var(--ink);margin-bottom:6px;}
-label{display:block;font-size:12.5px;color:var(--sub);margin:10px 0 4px;font-weight:600;}
-input[type=text],input[type=tel],input[type=number],input[type=date],select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:15px;}
+label{display:block;font-size:12px;color:var(--sub);margin:8px 0 3px;font-weight:600;}
+input[type=text],input[type=tel],input[type=number],input[type=date],select{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:15px;}
+input:disabled{opacity:.5;}
 input:focus,select:focus{outline:2px solid var(--brand);outline-offset:1px;}
 .row{display:flex;gap:8px;}
 .row>*{flex:1;}
-button.primary{background:var(--brand);color:var(--brand-ink);border:none;padding:11px 16px;border-radius:10px;font-weight:700;font-size:14.5px;cursor:pointer;width:100%;margin-top:14px;}
-button.ghost{background:transparent;border:1px dashed var(--line);color:var(--sub);padding:9px 12px;border-radius:9px;font-size:13.5px;cursor:pointer;width:100%;}
-.chip{display:inline-block;background:var(--brand-ink);color:var(--brand);border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;}
-.chip.done{background:var(--paid-bg);color:var(--paid);}
-.prod-row{display:grid;grid-template-columns:1fr 84px 26px;gap:6px;align-items:center;margin-bottom:6px;}
+button.primary{background:var(--brand);color:var(--brand-ink);border:none;padding:10px 16px;border-radius:9px;font-weight:700;font-size:14px;cursor:pointer;width:100%;margin-top:10px;}
+button.ghost{background:transparent;border:1px dashed var(--line);color:var(--sub);padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;width:100%;}
+.chip{display:inline-block;background:var(--brand-ink);color:var(--brand);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700;}
+.prod-row{display:grid;grid-template-columns:1fr 84px 26px;gap:6px;align-items:center;margin-bottom:5px;}
 .x{border:none;background:none;color:var(--sub);font-size:18px;cursor:pointer;line-height:1;}
-table.matrix{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
-table.matrix th,table.matrix td{padding:6px 4px;text-align:center;border-bottom:1px solid var(--line);}
-table.matrix th{color:var(--sub);font-weight:600;font-size:11.5px;}
+table.matrix{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;}
+table.matrix th,table.matrix td{padding:5px 4px;text-align:center;border-bottom:1px solid var(--line);}
+table.matrix th{color:var(--sub);font-weight:600;font-size:11px;}
 table.matrix td:first-child,table.matrix th:first-child{text-align:left;}
-table.matrix input{width:52px;padding:5px;text-align:center;font-size:13.5px;}
+table.matrix input{width:50px;padding:4px;text-align:center;font-size:13px;}
 .mtable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.totals{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
-.totals .line{display:flex;justify-content:space-between;padding:3px 0;font-size:13.5px;}
+.totals{margin-top:8px;border-top:1px solid var(--line);padding-top:6px;}
+.totals .line{display:flex;justify-content:space-between;padding:2px 0;font-size:13px;}
 .totals .line b{font-family:'Space Grotesk',sans-serif;}
-.order-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:10px;}
-.order-head .left{display:flex;align-items:center;gap:10px;min-width:0;}
+.name-paid{color:var(--paid);text-decoration:line-through;}
+.name-owe{color:var(--owe);}
+.agg-box{display:flex;gap:14px;margin:8px 0;font-size:12.5px;}
+.agg-box b{font-family:'Space Grotesk',sans-serif;font-size:14px;}
+.order-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px;}
+.order-head .left{display:flex;align-items:center;gap:8px;min-width:0;}
 .order-head .titles{min-width:0;}
 .order-head .titles h2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.chev{transition:transform .2s;color:var(--sub);flex:0 0 auto;}
+.order-head .titles p{margin:0;}
+.chev{transition:transform .2s;color:var(--sub);flex:0 0 auto;font-size:13px;}
 .chev.open{transform:rotate(180deg);}
-.done-pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--paid);background:var(--paid-bg);padding:3px 10px;border-radius:20px;flex:0 0 auto;}
-.done-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--paid);}
-.order-body{margin-top:14px;border-top:1px solid var(--line);padding-top:14px;}
-.debt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);}
+.done-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--paid);background:var(--paid-bg);padding:2px 9px;border-radius:20px;flex:0 0 auto;}
+.done-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--paid);}
+.lock-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--owe);background:var(--owe-bg);padding:2px 9px;border-radius:20px;flex:0 0 auto;}
+.order-body{margin-top:10px;border-top:1px solid var(--line);padding-top:10px;}
+.note{font-size:11.5px;color:var(--sub);margin-top:4px;}
+.debt{padding:10px 0;border-bottom:1px solid var(--line);}
 .debt:last-child{border-bottom:none;}
-.debt .who{font-size:14px;}
-.debt .amt{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;}
+.debt-head{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;}
+.debt .who{font-size:13.5px;}
+.debt .amt{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14.5px;}
 .debt.paid .amt{color:var(--paid);}
 .debt.pend .amt{color:var(--owe);}
 .actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
-.btn-sm{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;color:var(--ink);}
+.btn-sm{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:5px 9px;font-size:11.5px;font-weight:600;cursor:pointer;color:var(--ink);}
 .btn-bizum{background:var(--amber-bg);color:var(--amber);border-color:transparent;}
-.btn-revolut{background:var(--revolut-bg);color:var(--revolut);border-color:transparent;}
 .btn-paid{background:var(--paid-bg);color:var(--paid);border-color:transparent;}
-.status-pill{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;}
+.status-pill{font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;}
 .status-pill.pend{background:var(--owe-bg);color:var(--owe);}
 .status-pill.paid{background:var(--paid-bg);color:var(--paid);}
-.mark-form{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:10px;}
+.mark-form{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:10px;margin-top:8px;}
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:30px;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50;max-width:90vw;}
 .toast.show{opacity:1;}
 #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
@@ -95,13 +113,17 @@ table.matrix input{width:52px;padding:5px;text-align:center;font-size:13.5px;}
 #login-screen p.muted{text-align:center;margin-bottom:4px;}
 #login-error{color:var(--owe);font-size:13px;margin-top:8px;min-height:16px;}
 .btn-logout{background:none;border:none;color:var(--sub);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;}
-.user-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:10px;}
+.user-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);gap:10px;}
 .user-row:last-child{border-bottom:none;}
 .user-row .info b{display:block;font-size:14px;}
 .user-row .info span{font-size:12px;color:var(--sub);}
-.section-title{font-size:13px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin:20px 0 8px;}
-.export-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
-.export-row select{width:auto;flex:1;min-width:120px;font-size:12.5px;padding:7px 8px;}
+.section-title{font-size:12.5px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin:16px 0 6px;}
+.export-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.export-row select{width:auto;flex:1;min-width:120px;font-size:12px;padding:6px 8px;}
+.sub-order{background:var(--bg);border:1px solid var(--line);border-radius:9px;padding:9px 10px;margin-top:8px;}
+.sub-order-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:8px;}
+.sub-items{font-size:12.5px;margin-top:6px;padding-top:6px;border-top:1px solid var(--line);}
+.sub-items .l{display:flex;justify-content:space-between;padding:2px 0;}
 </style>
 </head>
 <body>
@@ -123,18 +145,25 @@ table.matrix input{width:52px;padding:5px;text-align:center;font-size:13.5px;}
   <div class="brand">Compra <span>Conjunta</span></div>
   <div style="display:flex;align-items:center;gap:8px">
     <span class="status" id="conn-status">Conectando…</span>
+    <button class="burger-btn" id="btn-menu" type="button">☰</button>
   </div>
 </div>
 <div class="wrap"><nav class="tabs">
-  <button id="tab-pedidos" class="active">Pedidos</button>
-  <button id="tab-nuevo">Nuevo pedido</button>
+  <button id="tab-pedidos" class="active">Actuales</button>
   <button id="tab-balances">Balances</button>
-  <button id="tab-completados">Completados</button>
-  <button id="tab-usuarios">Usuarios</button>
 </nav></div>
-<div class="wrap" style="padding-top:8px;text-align:right"><button class="btn-logout" id="btn-logout" type="button">Cerrar sesión</button></div>
 </header>
 <div class="wrap"><main id="main"></main></div>
+<button class="fab" id="fab-nuevo" type="button" style="display:none" title="Nuevo pedido">+</button>
+<div class="menu-backdrop" id="menu-backdrop">
+  <div class="menu-panel">
+    <h3>Menú</h3>
+    <button id="menu-nuevo" type="button">➕ Nuevo pedido</button>
+    <button id="menu-completados" type="button">📦 Pedidos completados (historial)</button>
+    <button id="menu-usuarios" type="button">👥 Usuarios del grupo</button>
+    <button id="menu-logout" type="button">Cerrar sesión</button>
+  </div>
+</div>
 </div>
 <div class="toast" id="toast"></div>
 
@@ -144,21 +173,16 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
 let supabase = null;
-let state = { orders: [], payments: {}, users: [] };
+let state = { orders: [], orderPayments: {}, users: [] };
 let view = "pedidos";
 let openOrderIds = new Set();
+let openNetKeys = new Set();
+let openSubOrders = new Set();
 let historyPageSize = 5;
 const TEN_DAYS = 10*24*60*60*1000;
 
-const toast = (msg) => {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
-};
-const setStatus = (ok, msg) => {
-  const el = document.getElementById('conn-status');
-  el.textContent = msg; el.className = 'status ' + (ok ? 'ok' : 'bad');
-};
+const toast = (msg) => { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); };
+const setStatus = (ok,msg) => { const el=document.getElementById('conn-status'); el.textContent=msg; el.className='status '+(ok?'ok':'bad'); };
 const fmt = (n) => (Math.round(n*100)/100).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
 const fmtDate = (ms) => ms ? new Date(ms).toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'}) : '';
 const uid = () => Math.random().toString(36).slice(2,10);
@@ -167,6 +191,8 @@ function escapeHtml(s){ return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;
 function escapeAttr(s){ return escapeHtml(s); }
 function userById(id){ return state.users.find(u=>u.id===id); }
 function userName(id){ const u=userById(id); return u ? u.name : '—'; }
+function dateInputToMs(val){ return val ? new Date(val+'T12:00:00').getTime() : null; }
+function msToDateInput(ms){ return ms ? new Date(ms).toISOString().slice(0,10) : ''; }
 
 // ---------- auth ----------
 async function initAuth(){
@@ -180,10 +206,7 @@ async function initAuth(){
   if(session){ showApp(); } else { document.getElementById('login-screen').style.display='flex'; }
   supabase.auth.onAuthStateChange((event)=>{
     if(event === 'SIGNED_IN') showApp();
-    if(event === 'SIGNED_OUT'){
-      document.getElementById('app-root').style.display='none';
-      document.getElementById('login-screen').style.display='flex';
-    }
+    if(event === 'SIGNED_OUT'){ document.getElementById('app-root').style.display='none'; document.getElementById('login-screen').style.display='flex'; }
   });
 }
 document.getElementById('login-btn').onclick = async ()=>{
@@ -195,14 +218,17 @@ document.getElementById('login-btn').onclick = async ()=>{
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if(error){ errEl.textContent = 'Acceso incorrecto. Revisa el correo y la contraseña.'; }
 };
-document.getElementById('btn-logout').onclick = ()=> supabase.auth.signOut();
+function closeMenu(){ document.getElementById('menu-backdrop').classList.remove('open'); }
+document.getElementById('btn-menu').onclick = ()=> document.getElementById('menu-backdrop').classList.add('open');
+document.getElementById('menu-backdrop').addEventListener('click', (e)=>{ if(e.target.id==='menu-backdrop') closeMenu(); });
+document.getElementById('menu-logout').onclick = ()=>{ closeMenu(); supabase.auth.signOut(); };
 
 async function showApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app-root').style.display='block';
   await loadAll();
   supabase.channel('sync-orders').on('postgres_changes', {event:'*', schema:'public', table:'orders'}, loadAll).subscribe();
-  supabase.channel('sync-payments').on('postgres_changes', {event:'*', schema:'public', table:'payments'}, loadAll).subscribe();
+  supabase.channel('sync-op').on('postgres_changes', {event:'*', schema:'public', table:'order_payments'}, loadAll).subscribe();
   supabase.channel('sync-users').on('postgres_changes', {event:'*', schema:'public', table:'users'}, loadAll).subscribe();
   setStatus(true, 'Sincronizado');
 }
@@ -211,133 +237,138 @@ async function showApp(){
 function rowToOrder(r){
   return { id:r.id, supplier:r.supplier, ownerId:r.owner_id, transport:r.transport,
     products:r.products||[], people:r.people||[], qty:r.qty||{}, createdAt:r.created_at,
-    status:r.status||'activo', completedAt:r.completed_at };
+    orderByDate:r.order_by_date, manualCompletedAt:r.manual_completed_at };
 }
 function orderToRow(o){
   return { id:o.id, supplier:o.supplier, owner_id:o.ownerId, transport:o.transport,
     products:o.products, people:o.people, qty:o.qty, created_at:o.createdAt,
-    status:o.status||'activo', completed_at:o.completedAt||null };
+    order_by_date:o.orderByDate||null, manual_completed_at:o.manualCompletedAt||null };
 }
 async function loadAll(){
-  const [{data:orderRows,error:e1}, {data:paymentRows,error:e2}, {data:userRows,error:e3}] = await Promise.all([
+  const [{data:orderRows,error:e1}, {data:opRows,error:e2}, {data:userRows,error:e3}] = await Promise.all([
     supabase.from('orders').select('*').order('created_at',{ascending:false}),
-    supabase.from('payments').select('*'),
+    supabase.from('order_payments').select('*'),
     supabase.from('users').select('*').order('name',{ascending:true}),
   ]);
   if(e1||e2||e3){ setStatus(false,'Error de conexión'); return; }
   state.orders = (orderRows||[]).map(rowToOrder);
-  state.payments = {};
-  (paymentRows||[]).forEach(p=>{ state.payments[p.key] = {paid:!!p.paid, amount:p.amount, markedBy:p.marked_by, markedDate:p.marked_date}; });
+  state.orderPayments = {};
+  (opRows||[]).forEach(p=>{ state.orderPayments[p.order_id+'::'+p.person_id] = {paid:!!p.paid, amount:p.amount, markedBy:p.marked_by, markedDate:p.marked_date}; });
   state.users = userRows||[];
   setStatus(true,'Sincronizado');
   render();
 }
-async function saveOrder(order){
+async function saveOrder(order){ if(!supabase) return; const {error}=await supabase.from('orders').upsert(orderToRow(order)); if(error) toast('Error: '+error.message); }
+async function deleteOrder(id){ if(!supabase) return; const {error}=await supabase.from('orders').delete().eq('id',id); if(error) toast('Error: '+error.message); }
+async function saveUser(u){ if(!supabase) return; const {error}=await supabase.from('users').upsert(u); if(error) toast('Error: '+error.message); }
+async function deleteUser(id){ if(!supabase) return; const {error}=await supabase.from('users').delete().eq('id',id); if(error) toast('Error: '+error.message); }
+async function saveOrderPayment(orderId, personId, fields){
   if(!supabase) return;
-  const { error } = await supabase.from('orders').upsert(orderToRow(order));
-  if(error) toast('Error al guardar: '+error.message);
+  const {error} = await supabase.from('order_payments').upsert({ order_id:orderId, person_id:personId, ...fields });
+  if(error) toast('Error: '+error.message);
 }
-async function deleteOrder(id){
-  if(!supabase) return;
-  const { error } = await supabase.from('orders').delete().eq('id', id);
-  if(error) toast('Error al eliminar: '+error.message);
-}
-async function savePayment(key, fields){
-  if(!supabase) return;
-  const { error } = await supabase.from('payments').upsert({ key, ...fields });
-  if(error) toast('Error al guardar: '+error.message);
-}
-async function saveUser(u){
-  if(!supabase) return;
-  const { error } = await supabase.from('users').upsert(u);
-  if(error) toast('Error al guardar: '+error.message);
-}
-async function deleteUser(id){
-  if(!supabase) return;
-  const { error } = await supabase.from('users').delete().eq('id', id);
-  if(error) toast('Error al eliminar: '+error.message);
-}
+function getOP(orderId, personId){ return state.orderPayments[orderId+'::'+personId] || {paid:false}; }
 
 // ---------- calculation ----------
 function computeOrderTotals(order){
-  const people = order.people || [];
-  const products = order.products || [];
-  const qty = order.qty || {};
-  const perPerson = {};
-  let orderSubtotal = 0;
+  const people = order.people||[], products = order.products||[], qty = order.qty||{};
+  const perPerson = {}; let orderSubtotal = 0;
   people.forEach(p=>{
-    let sub = 0;
-    products.forEach(prod=>{ sub += (Number((qty[p]||{})[prod.id])||0) * prod.price; });
-    perPerson[p] = { subtotal: sub };
-    orderSubtotal += sub;
+    let sub=0; products.forEach(prod=> sub += (Number((qty[p]||{})[prod.id])||0)*prod.price);
+    perPerson[p] = {subtotal:sub}; orderSubtotal += sub;
   });
   const transport = Number(order.transport)||0;
   people.forEach(p=>{
     const share = orderSubtotal>0 ? (perPerson[p].subtotal/orderSubtotal)*transport : 0;
-    perPerson[p].transport = share;
-    perPerson[p].total = perPerson[p].subtotal + share;
+    perPerson[p].transport = share; perPerson[p].total = perPerson[p].subtotal + share;
   });
   return { perPerson, orderSubtotal, transport };
 }
-function computeNetDebts(){
-  const ledger = {};
-  const add=(from,to,amt)=>{ if(from===to||amt<=0.004) return; ledger[from]=ledger[from]||{}; ledger[from][to]=(ledger[from][to]||0)+amt; };
-  state.orders.forEach(order=>{
-    const {perPerson} = computeOrderTotals(order);
-    (order.people||[]).forEach(p=>{ if(p!==order.ownerId) add(p, order.ownerId, perPerson[p].total); });
-  });
-  const pairs = new Set();
-  Object.keys(ledger).forEach(a=>Object.keys(ledger[a]).forEach(b=>pairs.add([a,b].sort().join('||'))));
-  const nets = [];
-  pairs.forEach(k=>{
-    const [a,b] = k.split('||');
-    const diff = ((ledger[a]&&ledger[a][b])||0) - ((ledger[b]&&ledger[b][a])||0);
-    if(Math.abs(diff) < 0.005) return;
-    const from = diff>0?a:b, to = diff>0?b:a;
-    nets.push({ from, to, amount: Math.abs(diff), key: from+'::'+to });
-  });
-  nets.sort((x,y)=>y.amount-x.amount);
-  return nets;
-}
-function orderPendingPairs(order){
+function orderPendingPeople(order){
   const {perPerson} = computeOrderTotals(order);
-  const nets = computeNetDebts();
-  const pending = [];
+  return (order.people||[]).filter(p=>p!==order.ownerId && perPerson[p].total>0.004 && !getOP(order.id,p).paid)
+    .map(p=>({person:p, amount:perPerson[p].total}));
+}
+function orderCollected(order){
+  const {perPerson} = computeOrderTotals(order);
+  let collected=0, outstanding=0;
   (order.people||[]).forEach(p=>{
     if(p===order.ownerId) return;
-    const owed = perPerson[p].total;
-    if(owed<=0.004) return;
-    const net = nets.find(n=> n.key===(p+'::'+order.ownerId) || n.key===(order.ownerId+'::'+p));
-    if(!net) return;
-    const rec = state.payments[net.key];
-    if(!(rec && rec.paid)) pending.push({person:p, amount:net.amount});
+    const amt = perPerson[p].total;
+    if(getOP(order.id,p).paid) collected += amt; else outstanding += amt;
   });
-  return pending;
+  return {collected, outstanding};
+}
+function isAutoSettled(order){ return orderPendingPeople(order).length===0; }
+function isLocked(order){ return !!order.orderByDate && Date.now() > order.orderByDate; }
+function isCompleted(order){ return !!order.manualCompletedAt || isAutoSettled(order); }
+function effectiveCompletedAt(order){
+  if(order.manualCompletedAt) return order.manualCompletedAt;
+  if(!isAutoSettled(order)) return null;
+  const dates = (order.people||[]).filter(p=>p!==order.ownerId).map(p=>getOP(order.id,p).markedDate).filter(Boolean);
+  return dates.length ? Math.max(...dates) : order.createdAt;
+}
+
+// pair ledger: from all orders, build per-order-per-person transactions, then net per pair
+function buildTransactions(){
+  const txs = [];
+  state.orders.forEach(order=>{
+    const {perPerson} = computeOrderTotals(order);
+    (order.people||[]).forEach(p=>{
+      if(p===order.ownerId) return;
+      const amount = perPerson[p].total;
+      if(amount<=0.004 && !getOP(order.id,p).paid) return;
+      const op = getOP(order.id,p);
+      txs.push({ orderId:order.id, from:p, to:order.ownerId, amount: op.paid && op.amount!=null ? op.amount : amount,
+        paid:op.paid, markedBy:op.markedBy, markedDate:op.markedDate });
+    });
+  });
+  return txs;
+}
+function pairKey(a,b){ return [a,b].sort().join('||'); }
+function computeNetPairs(){
+  const txs = buildTransactions();
+  const groups = {};
+  txs.forEach(tx=>{ const k=pairKey(tx.from,tx.to); groups[k]=groups[k]||[]; groups[k].push(tx); });
+  const pairs = [];
+  Object.keys(groups).forEach(k=>{
+    const list = groups[k];
+    const [x,y] = k.split('||');
+    let unpaidXY=0, unpaidYX=0;
+    list.forEach(tx=>{ if(tx.paid) return; if(tx.from===x) unpaidXY+=tx.amount; else unpaidYX+=tx.amount; });
+    const diff = unpaidXY - unpaidYX;
+    const settled = Math.abs(diff) < 0.005;
+    const from = diff>=0 ? x : y, to = diff>=0 ? y : x;
+    const amount = Math.abs(diff);
+    const isOverdue = list.some(tx=>{ const o=state.orders.find(o=>o.id===tx.orderId); return o && o.orderByDate && Date.now()>o.orderByDate; });
+    const paidDates = list.filter(tx=>tx.paid && tx.markedDate).map(tx=>tx.markedDate);
+    const allPaidOrNone = list.every(tx=>tx.paid);
+    const settledAt = (settled && allPaidOrNone && paidDates.length) ? Math.max(...paidDates) : null;
+    pairs.push({ key:from+'::'+to, from, to, amount, settled, isOverdue, settledAt, txs:list });
+  });
+  return pairs.filter(p=> p.amount>0.004 || p.settled);
 }
 
 // ---------- render shell ----------
 function render(){
-  ['pedidos','nuevo','balances','completados','usuarios'].forEach(t=>{
-    document.getElementById('tab-'+t).classList.toggle('active', t===view);
-  });
-  refreshUserDatalist();
-  const main = document.getElementById('main');
-  main.innerHTML = '';
+  document.getElementById('tab-pedidos').classList.toggle('active', view==='pedidos');
+  document.getElementById('tab-balances').classList.toggle('active', view==='balances');
+  document.getElementById('fab-nuevo').style.display = (view==='balances') ? 'block' : 'none';
+  const main = document.getElementById('main'); main.innerHTML = '';
   if(view==='pedidos') main.appendChild(renderPedidos(false));
   if(view==='nuevo') main.appendChild(renderNuevo());
   if(view==='balances') main.appendChild(renderBalances());
   if(view==='completados') main.appendChild(renderPedidos(true));
   if(view==='usuarios') main.appendChild(renderUsuarios());
 }
-function refreshUserDatalist(){} // reserved, selects rebuilt inline
 
-// ---------- Pedidos (activos / completados) ----------
+// ---------- Pedidos ----------
 function splitOrders(){
-  const now = Date.now();
-  const active = [], archived = [];
+  const now = Date.now(); const active=[], archived=[];
   state.orders.forEach(o=>{
-    const isOldCompleted = o.status==='completado' && o.completedAt && (now-o.completedAt >= TEN_DAYS);
-    (isOldCompleted ? archived : active).push(o);
+    const done = isCompleted(o); const cAt = effectiveCompletedAt(o);
+    const old = done && cAt && (now-cAt >= TEN_DAYS);
+    (old ? archived : active).push(o);
   });
   return {active, archived};
 }
@@ -345,8 +376,11 @@ function renderPedidos(archivedMode){
   const {active, archived} = splitOrders();
   const list = archivedMode ? archived : active;
   const wrap = document.createElement('div');
+  wrap.appendChild(el(archivedMode
+    ? `<div><div class="page-title">Pedidos completados</div><p class="page-sub">Historial de pedidos ya cerrados hace más de 10 días. Siguen disponibles para copiar al crear uno nuevo.</p></div>`
+    : `<div><div class="page-title">Pedidos actuales</div><p class="page-sub">En curso — todavía no completados.</p></div>`));
   if(!list.length){
-    wrap.appendChild(el(`<div class="card empty"><h3>${archivedMode?'Todavía no hay pedidos completados':'Todavía no hay pedidos'}</h3><p class="muted">${archivedMode?'Los pedidos completados hace más de 10 días aparecerán aquí.':'Crea el primer pedido desde la pestaña "Nuevo pedido".'}</p></div>`));
+    wrap.appendChild(el(`<div class="card empty"><h3>${archivedMode?'Todavía no hay pedidos completados':'Todavía no hay pedidos'}</h3><p class="muted">${archivedMode?'Los pedidos completados hace más de 10 días aparecerán aquí.':'Crea el primer pedido con el botón + de Balances o desde el menú ☰.'}</p></div>`));
     return wrap;
   }
   list.forEach(order=> wrap.appendChild(renderOrderCard(order, archivedMode)));
@@ -354,51 +388,60 @@ function renderPedidos(archivedMode){
 }
 function renderOrderCard(order, archivedMode){
   const isOpen = openOrderIds.has(order.id);
-  const isDone = order.status==='completado';
+  const done = isCompleted(order);
+  const locked = isLocked(order);
   const card = el(`<div class="card order-card">
     <div class="order-head" data-toggle>
       <div class="left">
         <span class="chev ${isOpen?'open':''}">▾</span>
         <div class="titles">
           <h2>${escapeHtml(order.supplier||'Proveedor')}</h2>
-          <p class="muted">Organiza ${escapeHtml(userName(order.ownerId))}</p>
+          <p class="muted">Organiza ${escapeHtml(userName(order.ownerId))}${order.orderByDate?' · límite '+fmtDate(order.orderByDate):''}</p>
         </div>
       </div>
-      ${isDone ? `<span class="done-pill"><span class="dot"></span>Completo</span>` : ''}
+      ${done ? `<span class="done-pill"><span class="dot"></span>Completo</span>` : (locked ? `<span class="lock-pill">Bloqueado</span>` : '')}
     </div>
     <div class="order-body" data-body style="display:${isOpen?'block':'none'}"></div>
   </div>`);
-  card.querySelector('[data-toggle]').onclick = ()=>{
-    if(openOrderIds.has(order.id)) openOrderIds.delete(order.id); else openOrderIds.add(order.id);
-    render();
-  };
-  if(isOpen) fillOrderBody(card.querySelector('[data-body]'), order, archivedMode);
+  card.querySelector('[data-toggle]').onclick = ()=>{ openOrderIds.has(order.id)?openOrderIds.delete(order.id):openOrderIds.add(order.id); render(); };
+  if(isOpen) fillOrderBody(card.querySelector('[data-body]'), order);
   return card;
 }
-function fillOrderBody(body, order, archivedMode){
+function fillOrderBody(body, order){
   const {perPerson, orderSubtotal, transport} = computeOrderTotals(order);
-  body.appendChild(renderMatrix(order));
-  const addRow = el(`<div class="row" style="margin-top:8px;gap:6px">
-    <select data-add-person style="flex:1"></select>
-    <button class="btn-sm" data-add-person-btn type="button" style="width:auto">Añadir</button>
-  </div>`);
-  const sel = addRow.querySelector('[data-add-person]');
-  const already = new Set(order.people||[]);
-  sel.innerHTML = `<option value="">Añadir persona…</option>` + state.users.filter(u=>!already.has(u.id)).map(u=>`<option value="${u.id}">${escapeHtml(u.name)}</option>`).join('');
-  addRow.querySelector('[data-add-person-btn]').onclick = ()=>{
-    if(!sel.value) return;
-    saveOrder({...order, people:[...(order.people||[]), sel.value]});
-  };
-  body.appendChild(addRow);
+  const locked = isLocked(order);
+  body.appendChild(renderMatrix(order, locked));
+  if(!locked){
+    const addRow = el(`<div class="row" style="margin-top:8px;gap:6px">
+      <select data-add-person style="flex:1"></select>
+      <button class="btn-sm" data-add-person-btn type="button" style="width:auto">Añadir</button>
+    </div>`);
+    const sel = addRow.querySelector('[data-add-person]');
+    const already = new Set(order.people||[]);
+    sel.innerHTML = `<option value="">Añadir persona…</option>` + state.users.filter(u=>!already.has(u.id)).map(u=>`<option value="${u.id}">${escapeHtml(u.name)}</option>`).join('');
+    addRow.querySelector('[data-add-person-btn]').onclick = ()=>{ if(!sel.value) return; saveOrder({...order, people:[...(order.people||[]), sel.value]}); };
+    body.appendChild(addRow);
+    const hint = el(`<button class="hint-link" type="button">¿No aparece quien buscas? Añádelo en Usuarios →</button>`);
+    hint.onclick = ()=>{ editingUser=null; view='usuarios'; render(); };
+    body.appendChild(hint);
+  } else {
+    body.appendChild(el(`<p class="note">Bloqueado desde el ${fmtDate(order.orderByDate)}. Edita el pedido y amplía la fecha límite para volver a modificarlo.</p>`));
+  }
+
+  const {collected, outstanding} = orderCollected(order);
+  body.appendChild(el(`<div class="agg-box"><span class="muted">Recaudado <b style="color:var(--paid)">${fmt(collected)}</b></span><span class="muted">Pendiente <b style="color:var(--owe)">${fmt(outstanding)}</b></span></div>`));
+
   const totalsEl = el('<div class="totals"></div>');
   (order.people||[]).forEach(p=>{
-    totalsEl.appendChild(el(`<div class="line"><span>${escapeHtml(userName(p))}${p===order.ownerId?' <span class="muted">(cobra)</span>':''}</span><b>${fmt(perPerson[p].total)}</b></div>`));
+    const isOwner = p===order.ownerId;
+    let cls = '';
+    if(locked && !isOwner) cls = getOP(order.id,p).paid ? 'name-paid' : 'name-owe';
+    totalsEl.appendChild(el(`<div class="line"><span class="${cls}">${escapeHtml(userName(p))}${isOwner?' <span class="muted">(cobra)</span>':''}</span><b>${fmt(perPerson[p].total)}</b></div>`));
   });
   totalsEl.appendChild(el(`<div class="line muted"><span>Subtotal productos</span><span>${fmt(orderSubtotal)}</span></div>`));
   totalsEl.appendChild(el(`<div class="line muted"><span>Transporte</span><span>${fmt(transport)}</span></div>`));
   body.appendChild(totalsEl);
 
-  // export controls
   const exp = el(`<div class="export-row">
     <select data-orient><option value="rows">Productos en filas</option><option value="cols">Productos en columnas</option></select>
     <button class="btn-sm" data-exp-csv type="button">CSV</button>
@@ -408,38 +451,39 @@ function fillOrderBody(body, order, archivedMode){
   exp.querySelector('[data-exp-xlsx]').onclick = ()=> exportOrder(order, exp.querySelector('[data-orient]').value, 'xlsx');
   body.appendChild(exp);
 
-  // actions
-  const actions = el(`<div class="actions" style="margin-top:14px;justify-content:flex-start">
-    <button class="btn-sm" data-edit type="button">Editar</button>
-    <button class="btn-sm" data-del type="button">Eliminar</button>
-    ${order.status!=='completado' ? `<button class="btn-sm btn-paid" data-complete type="button">Marcar completado</button>` : `<button class="btn-sm" data-reopen type="button">Reabrir pedido</button>`}
+  const actions = el(`<div class="actions" style="margin-top:12px;justify-content:flex-start;flex-direction:column;align-items:flex-start;gap:8px">
+    <div class="actions" style="justify-content:flex-start">
+      <button class="btn-sm" data-edit type="button">Editar</button>
+      <button class="btn-sm" data-del type="button">Eliminar</button>
+      ${!order.manualCompletedAt ? `<button class="btn-sm btn-paid" data-complete type="button">Marcar completado</button>` : `<button class="btn-sm" data-reopen type="button">Reabrir pedido</button>`}
+    </div>
+    ${!order.manualCompletedAt ? `<p class="note">Se completa solo cuando todas las deudas de este pedido estén pagadas. El botón de arriba es un cierre manual que da el pedido por completado aunque queden deudas sin cobrar.</p>` : ''}
   </div>`);
   actions.querySelector('[data-del]').onclick = ()=>{ if(confirm('¿Eliminar este pedido?')) deleteOrder(order.id); };
   actions.querySelector('[data-edit]').onclick = ()=> openEditOrder(order);
   const completeBtn = actions.querySelector('[data-complete]');
   if(completeBtn) completeBtn.onclick = ()=>{
-    const pending = orderPendingPairs(order);
+    const pending = orderPendingPeople(order);
     if(pending.length){
       const detail = pending.map(p=>`${userName(p.person)}: ${fmt(p.amount)}`).join(', ');
-      if(!confirm('Quedan saldos pendientes relacionados con este pedido ('+detail+'). ¿Marcar igualmente como completado?')) return;
+      if(!confirm('Quedan saldos sin cobrar en este pedido ('+detail+'). ¿Marcar igualmente como completado? (esto no salda las deudas, solo cierra el pedido)')) return;
     }
-    saveOrder({...order, status:'completado', completedAt: Date.now()});
+    saveOrder({...order, manualCompletedAt: Date.now()});
   };
   const reopenBtn = actions.querySelector('[data-reopen]');
-  if(reopenBtn) reopenBtn.onclick = ()=> saveOrder({...order, status:'activo', completedAt:null});
+  if(reopenBtn) reopenBtn.onclick = ()=> saveOrder({...order, manualCompletedAt:null});
   body.appendChild(actions);
 }
-function renderMatrix(order){
+function renderMatrix(order, locked){
   const products = order.products||[], people = order.people||[], qty = order.qty||{};
-  const t = document.createElement('table');
-  t.className = 'matrix';
+  const t = document.createElement('table'); t.className='matrix';
   t.innerHTML = '<tr><th>Persona</th>' + products.map(p=>`<th>${escapeHtml(p.name)}<br><span style="font-weight:400">${fmt(p.price)}</span></th>`).join('') + '</tr>';
   people.forEach(person=>{
     const tr = document.createElement('tr');
     let cells = `<td>${escapeHtml(userName(person))}</td>`;
     products.forEach(prod=>{
       const val = (qty[person]||{})[prod.id] || '';
-      cells += `<td><input type="number" min="0" step="1" value="${val}" data-qty-order="${order.id}" data-qty-person="${person}" data-qty-prod="${prod.id}"></td>`;
+      cells += `<td><input type="number" min="0" step="1" value="${val}" ${locked?'disabled':''} data-qty-order="${order.id}" data-qty-person="${person}" data-qty-prod="${prod.id}"></td>`;
     });
     tr.innerHTML = cells; t.appendChild(tr);
   });
@@ -448,14 +492,14 @@ function renderMatrix(order){
       const oid=inp.dataset.qtyOrder, person=inp.dataset.qtyPerson, pid=inp.dataset.qtyProd;
       const cur = state.orders.find(o=>o.id===oid); if(!cur) return;
       const nextQty = JSON.parse(JSON.stringify(cur.qty||{}));
-      nextQty[person] = nextQty[person]||{}; nextQty[person][pid] = Number(inp.value)||0;
+      nextQty[person]=nextQty[person]||{}; nextQty[person][pid]=Number(inp.value)||0;
       saveOrder({...cur, qty: nextQty});
     });
   });
   return t;
 }
 
-// ---------- Nuevo pedido (+ copiar anterior, + edición) ----------
+// ---------- Nuevo pedido ----------
 let draftProducts = [{id:uid(), name:'', price:''}];
 let editingOrderId = null;
 function openEditOrder(order){
@@ -465,6 +509,7 @@ function openEditOrder(order){
   document.getElementById('f-supplier').value = order.supplier||'';
   document.getElementById('f-owner').value = order.ownerId||'';
   document.getElementById('f-transport').value = order.transport||'';
+  document.getElementById('f-deadline').value = msToDateInput(order.orderByDate);
 }
 function renderNuevo(){
   const isEdit = !!editingOrderId;
@@ -475,8 +520,21 @@ function renderNuevo(){
     <label>Proveedor</label>
     <input type="text" id="f-supplier" placeholder="Ej. Cooperativa Ecológica">
     <div class="row">
-      <div><label>Persona que organiza</label><select id="f-owner"><option value="">Selecciona…</option>${state.users.map(u=>`<option value="${u.id}">${escapeHtml(u.name)}</option>`).join('')}</select></div>
+      <div><label>Persona que organiza</label><select id="f-owner"><option value="">Selecciona…</option>${state.users.map(u=>`<option value="${u.id}">${escapeHtml(u.name)}</option>`).join('')}</select><button class="hint-link" id="f-owner-hint" type="button">¿No está en la lista? Añádelo en Usuarios →</button></div>
       <div><label>Transporte total</label><input type="number" id="f-transport" min="0" step="0.01" placeholder="0,00"></div>
+    </div>
+    <label>Fecha límite de pedido</label>
+    <input type="date" id="f-deadline">
+    <p class="note">Pasada esta fecha, la tabla de personas y cantidades se bloquea. Vuelve a editar el pedido y amplía la fecha si necesitas reabrirla.</p>
+    <label>Importar productos</label>
+    <div class="card" style="padding:10px 12px;margin-bottom:10px">
+      <p class="muted" style="margin:0 0 6px">Pega la lista de un proveedor (una línea por producto; si copias de una tabla de Excel o Word, el precio en la misma línea se detecta solo).</p>
+      <textarea id="f-paste" rows="4" placeholder="Queso curado	5,00&#10;Aceite 1L	7,50" style="width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:13.5px;font-family:inherit"></textarea>
+      <button class="btn-sm" id="f-paste-import" type="button" style="margin-top:6px">Importar de la lista pegada</button>
+      <div style="border-top:1px solid var(--line);margin:12px 0 10px"></div>
+      <p class="muted" style="margin:0 0 6px">O sube un Excel/CSV del proveedor y elige qué columna es el producto.</p>
+      <input type="file" id="f-file" accept=".csv,.xlsx,.xls">
+      <div id="f-file-preview"></div>
     </div>
     <label>Productos</label>
     <div id="f-products"></div>
@@ -499,12 +557,97 @@ function renderNuevo(){
     });
   }
   drawProducts();
+  const ownerHint = wrap.querySelector('#f-owner-hint');
+  if(ownerHint) ownerHint.onclick = ()=>{ editingUser=null; view='usuarios'; render(); };
   wrap.querySelector('#f-addprod').onclick = ()=>{ draftProducts.push({id:uid(),name:'',price:''}); drawProducts(); };
+
+  function addImportedProducts(list){
+    // list: [{name, price}]. Drop the single blank starter row if present.
+    if(draftProducts.length===1 && !draftProducts[0].name.trim()) draftProducts = [];
+    list.forEach(p=> draftProducts.push({id:uid(), name:p.name, price:p.price!=null && !isNaN(p.price) ? p.price : ''}));
+    drawProducts();
+    toast(`${list.length} producto(s) importado(s) — revisa nombres y precios`);
+  }
+  wrap.querySelector('#f-paste-import').onclick = ()=>{
+    const raw = wrap.querySelector('#f-paste').value;
+    const lines = raw.split('\n').map(l=>l.replace(/\r$/,'')).filter(l=>l.trim());
+    if(!lines.length) return toast('Pega primero una lista de productos');
+    const parsed = lines.map(line=>{
+      const parts = line.split('\t');
+      if(parts.length>=2){
+        const priceNum = parseFloat(parts[1].replace(',', '.').replace(/[^0-9.]/g,''));
+        return { name: parts[0].trim(), price: isNaN(priceNum) ? '' : priceNum };
+      }
+      return { name: line.trim(), price: '' };
+    }).filter(p=>p.name);
+    addImportedProducts(parsed);
+    wrap.querySelector('#f-paste').value = '';
+  };
+
+  wrap.querySelector('#f-file').addEventListener('change', (ev)=>{
+    const file = ev.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      let aoa;
+      try{
+        const wb = XLSX.read(e.target.result, {type:'array'});
+        const ws = wb.Sheets[wb.SheetNames[0]];
+        aoa = XLSX.utils.sheet_to_json(ws, {header:1, raw:true, defval:''});
+      }catch(err){ toast('No se pudo leer el archivo: '+err.message); return; }
+      renderFilePreview(wrap, aoa);
+    };
+    reader.readAsArrayBuffer(file);
+  });
+
+  function renderFilePreview(wrap, aoa){
+    const previewEl = wrap.querySelector('#f-file-preview');
+    if(!aoa.length){ previewEl.innerHTML = '<p class="muted">El archivo está vacío.</p>'; return; }
+    const numCols = Math.max(...aoa.map(r=>r.length));
+    const colLabel = (i)=> String.fromCharCode(65+i);
+    const sampleRows = aoa.slice(0,6);
+    let tableHtml = '<div class="mtable-wrap"><table class="matrix" style="margin-top:8px"><tr><th></th>' +
+      Array.from({length:numCols},(_,i)=>`<th>${colLabel(i)}</th>`).join('') + '</tr>';
+    sampleRows.forEach((row,ri)=>{
+      tableHtml += `<tr><td class="muted">${ri+1}</td>` + Array.from({length:numCols},(_,ci)=>`<td>${escapeHtml(row[ci]!=null?String(row[ci]).slice(0,14):'')}</td>`).join('') + '</tr>';
+    });
+    tableHtml += '</table></div>';
+    previewEl.innerHTML = `
+      <p class="muted" style="margin-top:8px">Vista previa (primeras filas):</p>
+      ${tableHtml}
+      <div class="row" style="margin-top:8px">
+        <div><label>Columna del nombre</label><select id="f-col-name">${Array.from({length:numCols},(_,i)=>`<option value="${i}">${colLabel(i)}</option>`).join('')}</select></div>
+        <div><label>Columna del precio (opcional)</label><select id="f-col-price"><option value="">Ninguna</option>${Array.from({length:numCols},(_,i)=>`<option value="${i}">${colLabel(i)}</option>`).join('')}</select></div>
+      </div>
+      <label>Empezar en la fila</label>
+      <input type="number" id="f-start-row" min="1" value="1" style="max-width:100px">
+      <button class="btn-sm" id="f-file-import" type="button" style="margin-top:8px">Importar de este archivo</button>
+    `;
+    previewEl.querySelector('#f-file-import').onclick = ()=>{
+      const nameCol = Number(previewEl.querySelector('#f-col-name').value);
+      const priceColRaw = previewEl.querySelector('#f-col-price').value;
+      const priceCol = priceColRaw===''? null : Number(priceColRaw);
+      const startRow = Math.max(1, Number(previewEl.querySelector('#f-start-row').value)||1) - 1;
+      const parsed = [];
+      for(let r=startRow; r<aoa.length; r++){
+        const row = aoa[r]; if(!row) continue;
+        const name = row[nameCol]!=null ? String(row[nameCol]).trim() : '';
+        if(!name) continue;
+        let price = '';
+        if(priceCol!=null && row[priceCol]!=null){
+          const n = parseFloat(String(row[priceCol]).replace(',', '.').replace(/[^0-9.]/g,''));
+          if(!isNaN(n)) price = n;
+        }
+        parsed.push({name, price});
+      }
+      if(!parsed.length) return toast('No se encontraron productos con esas columnas');
+      addImportedProducts(parsed);
+    };
+  }
   const copySel = wrap.querySelector('#f-copy');
   if(copySel) copySel.onchange = ()=>{
     if(!copySel.value) return;
-    const src = state.orders.find(o=>o.id===copySel.value);
-    if(!src) return;
+    const src = state.orders.find(o=>o.id===copySel.value); if(!src) return;
     wrap.querySelector('#f-supplier').value = src.supplier||'';
     wrap.querySelector('#f-owner').value = src.ownerId||'';
     wrap.querySelector('#f-transport').value = src.transport||'';
@@ -518,15 +661,15 @@ function renderNuevo(){
     const supplier = wrap.querySelector('#f-supplier').value.trim();
     const ownerId = wrap.querySelector('#f-owner').value;
     const transport = Number(wrap.querySelector('#f-transport').value)||0;
+    const orderByDate = dateInputToMs(wrap.querySelector('#f-deadline').value);
     const products = draftProducts.filter(p=>p.name.trim() && Number(p.price)>0).map(p=>({id:p.id, name:p.name.trim(), price:Number(p.price)}));
     if(!supplier || !ownerId || !products.length) return toast('Falta proveedor, organizador o algún producto válido');
     if(isEdit){
       const cur = state.orders.find(o=>o.id===editingOrderId);
-      saveOrder({...cur, supplier, ownerId, transport, products});
+      saveOrder({...cur, supplier, ownerId, transport, products, orderByDate});
       toast('Pedido actualizado');
     } else {
-      const order = { id: uid(), supplier, ownerId, transport, products, people:[ownerId], qty:{}, createdAt: Date.now(), status:'activo', completedAt:null };
-      saveOrder(order);
+      saveOrder({ id: uid(), supplier, ownerId, transport, products, people:[ownerId], qty:{}, createdAt: Date.now(), orderByDate, manualCompletedAt:null });
       toast('Pedido creado');
     }
     editingOrderId = null; draftProducts=[{id:uid(),name:'',price:''}];
@@ -536,44 +679,30 @@ function renderNuevo(){
 }
 
 // ---------- Balances ----------
-function allBalanceRecords(){
-  const nets = computeNetDebts();
-  const byKey = {};
-  nets.forEach(n=> byKey[n.key] = { ...n });
-  Object.keys(state.payments).forEach(k=>{
-    const rec = state.payments[k];
-    if(rec.paid){
-      const [from,to] = k.split('::');
-      byKey[k] = { key:k, from, to, amount: rec.amount!=null?rec.amount:(byKey[k]?byKey[k].amount:0), paid:true, markedBy:rec.markedBy, markedDate:rec.markedDate };
-    } else if(byKey[k]){
-      byKey[k].paid = false;
-    }
-  });
-  return Object.values(byKey).filter(r=>r.amount>0.004 || r.paid);
-}
 function renderBalances(){
-  const all = allBalanceRecords();
+  const pairs = computeNetPairs();
   const now = Date.now();
-  const openList = all.filter(r=>!r.paid);
-  const recentPaid = all.filter(r=>r.paid && (!r.markedDate || now-r.markedDate < TEN_DAYS));
-  const oldPaid = all.filter(r=>r.paid && r.markedDate && now-r.markedDate >= TEN_DAYS)
-    .sort((a,b)=> (b.markedDate||0)-(a.markedDate||0));
+  const open = pairs.filter(p=>!p.settled);
+  const recentSettled = pairs.filter(p=>p.settled && p.settledAt && now-p.settledAt < TEN_DAYS);
+  const oldSettled = pairs.filter(p=>p.settled && p.settledAt && now-p.settledAt >= TEN_DAYS).sort((a,b)=>b.settledAt-a.settledAt);
+  const required = [...open.filter(p=>p.isOverdue), ...recentSettled.filter(p=>p.isOverdue)];
+  const notDue = [...open.filter(p=>!p.isOverdue), ...recentSettled.filter(p=>!p.isOverdue)];
   const wrap = document.createElement('div');
-  if(!openList.length && !recentPaid.length && !oldPaid.length){
+  if(!required.length && !notDue.length && !oldSettled.length){
     wrap.appendChild(el(`<div class="card empty"><h3>Nada pendiente</h3><p class="muted">En cuanto haya pedidos con cantidades, aquí aparecerán las deudas netas entre personas.</p></div>`));
     return wrap;
   }
-  const card = el(`<div class="card"><h2>Balances</h2><p class="muted">Deudas ya compensadas entre todos los pedidos.</p></div>`);
-  [...openList.sort((a,b)=>b.amount-a.amount), ...recentPaid.sort((a,b)=>(b.markedDate||0)-(a.markedDate||0))]
-    .forEach(r=> card.appendChild(renderDebtRow(r)));
-  wrap.appendChild(card);
-  if(oldPaid.length){
-    wrap.appendChild(el(`<div class="section-title">Historial de pagos</div>`));
-    const histCard = el(`<div class="card"></div>`);
-    const shown = oldPaid.slice(0, historyPageSize);
-    shown.forEach(r=> histCard.appendChild(renderDebtRow(r)));
-    if(oldPaid.length > historyPageSize){
-      const more = el(`<button class="ghost" type="button">Mostrar más (${oldPaid.length - historyPageSize} restantes)</button>`);
+  wrap.appendChild(el(`<div class="section-title">Pagos requeridos — pedidos ya pasados de fecha límite</div>`));
+  wrap.appendChild(sectionCard(required, 'Sin deudas vencidas.'));
+  wrap.appendChild(el(`<div class="section-title">Pagos pendientes — pedidos aún dentro de plazo</div>`));
+  wrap.appendChild(sectionCard(notDue, 'Sin deudas pendientes.'));
+  if(oldSettled.length){
+    wrap.appendChild(el(`<div class="section-title">Historial (pagado hace más de 10 días)</div>`));
+    const histCard = document.createElement('div'); histCard.className='card';
+    const shown = oldSettled.slice(0, historyPageSize);
+    shown.forEach(p=> histCard.appendChild(renderPairRow(p)));
+    if(oldSettled.length > historyPageSize){
+      const more = el(`<button class="ghost" type="button">Mostrar más (${oldSettled.length-historyPageSize} restantes)</button>`);
       more.onclick = ()=>{ historyPageSize += 10; render(); };
       histCard.appendChild(more);
     }
@@ -581,81 +710,159 @@ function renderBalances(){
   }
   return wrap;
 }
-function renderDebtRow(r){
-  const row = el(`<div class="debt ${r.paid?'paid':'pend'}">
-    <div>
-      <div class="who">${escapeHtml(userName(r.from))} → ${escapeHtml(userName(r.to))}</div>
-      <span class="status-pill ${r.paid?'paid':'pend'}">${r.paid?'Pagado':'Pendiente'}</span>
-      ${r.paid ? `<div class="muted" style="margin-top:4px">Por ${escapeHtml(r.markedBy||'—')} · ${fmtDate(r.markedDate)}</div>` : ''}
+function sectionCard(list, emptyMsg){
+  const card = document.createElement('div'); card.className='card';
+  if(!list.length){ card.appendChild(el(`<p class="muted">${emptyMsg}</p>`)); return card; }
+  list.sort((a,b)=>b.amount-a.amount).forEach(p=> card.appendChild(renderPairRow(p)));
+  return card;
+}
+function renderPairRow(pair){
+  const row = document.createElement('div'); row.className = 'debt ' + (pair.settled?'paid':'pend');
+  const isOpenRow = openNetKeys.has(pair.key);
+  row.innerHTML = `
+    <div class="debt-head" data-toggle>
+      <div>
+        <div class="who"><span class="chev ${isOpenRow?'open':''}" style="display:inline-block;margin-right:4px">▾</span>${escapeHtml(userName(pair.from))} → ${escapeHtml(userName(pair.to))}</div>
+        <span class="status-pill ${pair.settled?'paid':'pend'}">${pair.settled?'Pagado':'Pendiente'}</span>
+      </div>
+      <div style="text-align:right"><div class="amt">${fmt(pair.amount)}</div></div>
     </div>
-    <div style="text-align:right">
-      <div class="amt">${fmt(r.amount)}</div>
-      <div class="actions" style="margin-top:6px" data-actions></div>
-    </div>
-  </div>`);
-  const actions = row.querySelector('[data-actions]');
-  if(!r.paid){
-    const toUser = userById(r.to);
-    if(toUser && toUser.phone){
-      const b = el(`<button class="btn-sm btn-bizum" type="button">Bizum</button>`);
-      b.onclick = ()=>{
-        const text = `Bizum a ${toUser.name} (${toUser.phone}): ${fmt(r.amount)} — Compra Conjunta`;
-        navigator.clipboard && navigator.clipboard.writeText(text).catch(()=>{});
-        toast('Resumen copiado: '+text);
-      };
-      actions.appendChild(b);
-    }
-    if(toUser && toUser.revolut_handle){
-      const rb = el(`<button class="btn-sm btn-revolut" type="button">Revolut</button>`);
-      rb.onclick = ()=>{
-        const url = `https://revolut.me/${toUser.revolut_handle}/${r.amount.toFixed(2)}EUR`;
-        window.open(url, '_blank');
-      };
-      actions.appendChild(rb);
-    }
-    const markBtn = el(`<button class="btn-sm btn-paid" type="button">Marcar pagado</button>`);
-    markBtn.onclick = ()=> toggleMarkForm(row, r);
-    actions.appendChild(markBtn);
-  } else {
-    const undo = el(`<button class="btn-sm" type="button">Marcar pendiente</button>`);
-    undo.onclick = ()=> savePayment(r.key, {paid:false, amount:r.amount, marked_by:null, marked_date:null});
-    actions.appendChild(undo);
-  }
+    <div data-detail style="display:${isOpenRow?'block':'none'}"></div>
+  `;
+  row.querySelector('[data-toggle]').onclick = ()=>{ openNetKeys.has(pair.key)?openNetKeys.delete(pair.key):openNetKeys.add(pair.key); render(); };
+  if(isOpenRow) fillPairDetail(row.querySelector('[data-detail]'), pair);
   return row;
 }
-function toggleMarkForm(row, r){
-  if(row.querySelector('.mark-form')){ row.querySelector('.mark-form').remove(); return; }
+function fillPairDetail(container, pair){
+  const bulkRow = document.createElement('div'); bulkRow.className='actions'; bulkRow.style.justifyContent='flex-start'; bulkRow.style.marginTop='8px';
+  const toUser = userById(pair.to);
+  if(!pair.settled){
+    if(toUser && toUser.phone){
+      const b = el(`<button class="btn-sm btn-bizum" type="button">Bizum (todo)</button>`);
+      b.onclick = ()=>{ const text = `Bizum a ${toUser.name} (${toUser.phone}): ${fmt(pair.amount)} — Compra Conjunta`; navigator.clipboard&&navigator.clipboard.writeText(text).catch(()=>{}); toast('Resumen copiado: '+text); };
+      bulkRow.appendChild(b);
+    }
+    const markBtn = el(`<button class="btn-sm btn-paid" type="button">Marcar todo pagado</button>`);
+    markBtn.onclick = ()=> toggleBulkForm(container, pair);
+    bulkRow.appendChild(markBtn);
+  }
+  const csvBtn = el(`<button class="btn-sm" type="button">Exportar movimientos</button>`);
+  csvBtn.onclick = ()=> exportPairStatement(pair);
+  bulkRow.appendChild(csvBtn);
+  container.appendChild(bulkRow);
+
+  const list = document.createElement('div'); list.style.marginTop='8px';
+  pair.txs.slice().sort((a,b)=>b.orderId.localeCompare(a.orderId)).forEach(tx=> list.appendChild(renderTxRow(tx)));
+  container.appendChild(list);
+}
+function toggleBulkForm(container, pair){
+  if(container.querySelector('.mark-form')){ container.querySelector('.mark-form').remove(); return; }
   const today = new Date().toISOString().slice(0,10);
   const form = el(`<div class="mark-form">
     <label>¿Quién lo marca como pagado?</label>
     <input type="text" data-who placeholder="Tu nombre">
     <label>Fecha de pago</label>
     <input type="date" data-date value="${today}">
-    <button class="primary" data-confirm type="button" style="margin-top:10px">Confirmar</button>
+    <button class="primary" data-confirm type="button" style="margin-top:8px">Confirmar</button>
   </div>`);
   form.querySelector('[data-confirm]').onclick = ()=>{
     const who = form.querySelector('[data-who]').value.trim();
     const dateVal = form.querySelector('[data-date]').value;
     if(!who) return toast('Indica quién lo marca como pagado');
     const ms = dateVal ? new Date(dateVal+'T12:00:00').getTime() : Date.now();
-    savePayment(r.key, {paid:true, amount:r.amount, marked_by:who, marked_date:ms});
+    pair.txs.filter(tx=>!tx.paid).forEach(tx=> saveOrderPayment(tx.orderId, tx.from, {paid:true, amount:tx.amount, marked_by:who, marked_date:ms}));
   };
-  row.appendChild(form);
+  container.appendChild(form);
+}
+function renderTxRow(tx){
+  const order = state.orders.find(o=>o.id===tx.orderId);
+  const key = tx.orderId+'::'+tx.from;
+  const isOpenSub = openSubOrders.has(key);
+  const row = el(`<div class="sub-order">
+    <div class="sub-order-head" data-toggle>
+      <div>
+        <div style="font-size:13px"><span class="chev ${isOpenSub?'open':''}" style="display:inline-block;margin-right:4px;font-size:11px">▾</span>${escapeHtml(order?order.supplier:'Pedido')} · ${fmtDate(order?order.createdAt:null)}</div>
+        <div class="muted">${escapeHtml(userName(tx.from))} → ${escapeHtml(userName(tx.to))}${tx.paid?` · Marcado por ${escapeHtml(tx.markedBy||'—')} · ${fmtDate(tx.markedDate)}`:''}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:700;font-family:'Space Grotesk',sans-serif">${fmt(tx.amount)}</div>
+        <span class="status-pill ${tx.paid?'paid':'pend'}">${tx.paid?'Pagado':'Pendiente'}</span>
+      </div>
+    </div>
+    <div data-sub-detail style="display:${isOpenSub?'block':'none'}"></div>
+  </div>`);
+  row.querySelector('[data-toggle]').onclick = ()=>{ openSubOrders.has(key)?openSubOrders.delete(key):openSubOrders.add(key); render(); };
+  if(isOpenSub){
+    const detail = row.querySelector('[data-sub-detail]');
+    const items = document.createElement('div'); items.className='sub-items';
+    if(order){
+      (order.products||[]).forEach(prod=>{
+        const n = Number((order.qty[tx.from]||{})[prod.id])||0;
+        if(n>0) items.appendChild(el(`<div class="l"><span>${escapeHtml(prod.name)} × ${n}</span><span>${fmt(n*prod.price)}</span></div>`));
+      });
+    }
+    const actions = document.createElement('div'); actions.className='actions'; actions.style.justifyContent='flex-start'; actions.style.marginTop='8px';
+    const toUser = userById(tx.to);
+    if(!tx.paid){
+      if(toUser && toUser.phone){
+        const b = el(`<button class="btn-sm btn-bizum" type="button">Bizum</button>`);
+        b.onclick = ()=>{ const text = `Bizum a ${toUser.name} (${toUser.phone}): ${fmt(tx.amount)} — Compra Conjunta`; navigator.clipboard&&navigator.clipboard.writeText(text).catch(()=>{}); toast('Resumen copiado: '+text); };
+        actions.appendChild(b);
+      }
+      const markBtn = el(`<button class="btn-sm btn-paid" type="button">Marcar pagado</button>`);
+      markBtn.onclick = ()=> toggleTxForm(detail, tx);
+      actions.appendChild(markBtn);
+    } else {
+      const undo = el(`<button class="btn-sm" type="button">Marcar pendiente</button>`);
+      undo.onclick = ()=> saveOrderPayment(tx.orderId, tx.from, {paid:false, amount:tx.amount, marked_by:null, marked_date:null});
+      actions.appendChild(undo);
+    }
+    detail.appendChild(items); detail.appendChild(actions);
+  }
+  return row;
+}
+function toggleTxForm(container, tx){
+  if(container.querySelector('.mark-form')){ container.querySelector('.mark-form').remove(); return; }
+  const today = new Date().toISOString().slice(0,10);
+  const form = el(`<div class="mark-form">
+    <label>¿Quién lo marca como pagado?</label>
+    <input type="text" data-who placeholder="Tu nombre">
+    <label>Fecha de pago</label>
+    <input type="date" data-date value="${today}">
+    <button class="primary" data-confirm type="button" style="margin-top:8px">Confirmar</button>
+  </div>`);
+  form.querySelector('[data-confirm]').onclick = ()=>{
+    const who = form.querySelector('[data-who]').value.trim();
+    const dateVal = form.querySelector('[data-date]').value;
+    if(!who) return toast('Indica quién lo marca como pagado');
+    const ms = dateVal ? new Date(dateVal+'T12:00:00').getTime() : Date.now();
+    saveOrderPayment(tx.orderId, tx.from, {paid:true, amount:tx.amount, marked_by:who, marked_date:ms});
+  };
+  container.appendChild(form);
+}
+function exportPairStatement(pair){
+  const rows = [['Pedido','Fecha pedido','De','A','Importe','Estado','Marcado por','Fecha de pago']];
+  pair.txs.forEach(tx=>{
+    const order = state.orders.find(o=>o.id===tx.orderId);
+    rows.push([order?order.supplier:'', fmtDate(order?order.createdAt:null), userName(tx.from), userName(tx.to), tx.amount.toFixed(2), tx.paid?'Pagado':'Pendiente', tx.markedBy||'', tx.markedDate?fmtDate(tx.markedDate):'']);
+  });
+  rows.push([]); rows.push(['Neto actual', '', userName(pair.from), userName(pair.to), pair.amount.toFixed(2), pair.settled?'Pagado':'Pendiente']);
+  const csv = '\uFEFF' + rows.map(r=>r.map(v=>{ const s=String(v??''); return /[",\n;]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s; }).join(';')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download = `movimientos-${userName(pair.from)}-${userName(pair.to)}.csv`.toLowerCase().replace(/\s+/g,'-');
+  document.body.appendChild(a); a.click(); a.remove();
 }
 
 // ---------- Usuarios ----------
 function renderUsuarios(){
   const wrap = document.createElement('div');
-  const listCard = el(`<div class="card"><h2>Personas del grupo</h2><p class="muted">Añade aquí a cada persona una vez, con su teléfono y usuario de Revolut.</p><div data-list></div></div>`);
+  const listCard = el(`<div class="card"><h2>Personas del grupo</h2><p class="muted">Añade aquí a cada persona una vez, con su teléfono para Bizum.</p><div data-list></div></div>`);
   const listEl = listCard.querySelector('[data-list]');
   if(!state.users.length) listEl.appendChild(el(`<p class="muted">Todavía no hay nadie añadido.</p>`));
   state.users.forEach(u=>{
     const row = el(`<div class="user-row">
-      <div class="info"><b>${escapeHtml(u.name)}</b><span>${escapeHtml(u.phone||'sin teléfono')}${u.revolut_handle?' · @'+escapeHtml(u.revolut_handle):''}</span></div>
-      <div class="actions">
-        <button class="btn-sm" data-edit type="button">Editar</button>
-        <button class="btn-sm" data-del type="button">Eliminar</button>
-      </div>
+      <div class="info"><b>${escapeHtml(u.name)}</b><span>${escapeHtml(u.phone||'sin teléfono')}</span></div>
+      <div class="actions"><button class="btn-sm" data-edit type="button">Editar</button><button class="btn-sm" data-del type="button">Eliminar</button></div>
     </div>`);
     row.querySelector('[data-del]').onclick = ()=>{ if(confirm('¿Eliminar a '+u.name+'?')) deleteUser(u.id); };
     row.querySelector('[data-edit]').onclick = ()=> openUserForm(u);
@@ -671,12 +878,8 @@ function renderUserForm(){
   const u = editingUser || {};
   const card = el(`<div class="card">
     <h2>${editingUser?'Editar persona':'Añadir persona'}</h2>
-    <label>Nombre</label>
-    <input type="text" id="u-name" value="${escapeAttr(u.name||'')}">
-    <label>Teléfono (para Bizum)</label>
-    <input type="tel" id="u-phone" value="${escapeAttr(u.phone||'')}">
-    <label>Usuario de Revolut (opcional)</label>
-    <input type="text" id="u-revolut" placeholder="sin @" value="${escapeAttr(u.revolut_handle||'')}">
+    <label>Nombre</label><input type="text" id="u-name" value="${escapeAttr(u.name||'')}">
+    <label>Teléfono (para Bizum)</label><input type="tel" id="u-phone" value="${escapeAttr(u.phone||'')}">
     <button class="primary" id="u-save" type="button">${editingUser?'Guardar cambios':'Añadir'}</button>
     ${editingUser?`<button class="ghost" id="u-cancel" type="button" style="margin-top:8px">Cancelar</button>`:''}
   </div>`);
@@ -685,9 +888,8 @@ function renderUserForm(){
   card.querySelector('#u-save').onclick = ()=>{
     const name = card.querySelector('#u-name').value.trim();
     const phone = card.querySelector('#u-phone').value.trim();
-    const revolutHandle = card.querySelector('#u-revolut').value.trim().replace(/^@/,'');
     if(!name) return toast('Falta el nombre');
-    saveUser({ id: editingUser ? editingUser.id : uid(), name, phone, revolut_handle: revolutHandle||null });
+    saveUser({ id: editingUser?editingUser.id:uid(), name, phone });
     editingUser = null; render();
   };
   return card;
@@ -701,22 +903,17 @@ function exportOrder(order, orientation, format){
   if(orientation==='rows'){
     aoa = [['Producto', ...people.map(p=>userName(p)), 'Precio unidad', 'Total unidades']];
     products.forEach(prod=>{
-      const row = [prod.name];
-      let totalUnits = 0;
-      people.forEach(p=>{ const n = Number((order.qty[p]||{})[prod.id])||0; totalUnits+=n; row.push(n); });
-      row.push(prod.price.toFixed(2));
-      row.push(totalUnits);
-      aoa.push(row);
+      const row=[prod.name]; let totalUnits=0;
+      people.forEach(p=>{ const n=Number((order.qty[p]||{})[prod.id])||0; totalUnits+=n; row.push(n); });
+      row.push(prod.price.toFixed(2)); row.push(totalUnits); aoa.push(row);
     });
     aoa.push(['TOTAL A PAGAR', ...people.map(p=>perPerson[p].total.toFixed(2)), '', '']);
   } else {
     aoa = [['Persona', ...products.map(p=>p.name), 'Transporte', 'Total a pagar']];
     people.forEach(p=>{
-      const row = [userName(p)];
+      const row=[userName(p)];
       products.forEach(prod=> row.push(Number((order.qty[p]||{})[prod.id])||0));
-      row.push(perPerson[p].transport.toFixed(2));
-      row.push(perPerson[p].total.toFixed(2));
-      aoa.push(row);
+      row.push(perPerson[p].transport.toFixed(2)); row.push(perPerson[p].total.toFixed(2)); aoa.push(row);
     });
   }
   const ws = XLSX.utils.aoa_to_sheet(aoa);
@@ -724,20 +921,20 @@ function exportOrder(order, orientation, format){
   if(format==='csv'){
     const csv = '\uFEFF' + XLSX.utils.sheet_to_csv(ws, {FS:';'});
     const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename+'.csv';
+    const a = document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename+'.csv';
     document.body.appendChild(a); a.click(); a.remove();
   } else {
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Pedido');
-    XLSX.writeFile(wb, filename+'.xlsx');
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Pedido'); XLSX.writeFile(wb, filename+'.xlsx');
   }
 }
 
 document.getElementById('tab-pedidos').onclick = ()=>{ view='pedidos'; render(); };
-document.getElementById('tab-nuevo').onclick = ()=>{ editingOrderId=null; draftProducts=[{id:uid(),name:'',price:''}]; view='nuevo'; render(); };
 document.getElementById('tab-balances').onclick = ()=>{ view='balances'; render(); };
-document.getElementById('tab-completados').onclick = ()=>{ view='completados'; render(); };
-document.getElementById('tab-usuarios').onclick = ()=>{ editingUser=null; view='usuarios'; render(); };
+function goNuevo(){ editingOrderId=null; draftProducts=[{id:uid(),name:'',price:''}]; view='nuevo'; render(); }
+document.getElementById('menu-nuevo').onclick = ()=>{ closeMenu(); goNuevo(); };
+document.getElementById('menu-completados').onclick = ()=>{ closeMenu(); view='completados'; render(); };
+document.getElementById('menu-usuarios').onclick = ()=>{ closeMenu(); editingUser=null; view='usuarios'; render(); };
+document.getElementById('fab-nuevo').onclick = goNuevo;
 
 initAuth();
 </script>
