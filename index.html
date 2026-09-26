@@ -12,21 +12,21 @@
   --bg:#FAF9F4; --panel:#FFFFFF; --ink:#1F2A22; --sub:#5B6B60;
   --line:#E4E0D4; --brand:#2F6F4E; --brand-ink:#EAF3EC;
   --amber:#B5761A; --amber-bg:#FBF0DF; --owe:#A24B3B; --owe-bg:#FBEAE5;
-  --paid:#2F6F4E; --paid-bg:#E7F1EA; --radius:14px;
+  --paid:#2F6F4E; --paid-bg:#E7F1EA; --revolut:#0666EB; --revolut-bg:#E8F0FE; --radius:14px;
 }
 @media (prefers-color-scheme: dark){
   :root{
     --bg:#171B18; --panel:#1F2521; --ink:#EDEFEA; --sub:#9AA79E;
     --line:#2C332D; --brand:#63B98A; --brand-ink:#12241A;
     --amber:#E3A94E; --amber-bg:#2E2617; --owe:#E0806D; --owe-bg:#301C18;
-    --paid:#63B98A; --paid-bg:#16281F;
+    --paid:#63B98A; --paid-bg:#16281F; --revolut:#6FA8FF; --revolut-bg:#132238;
   }
 }
 *{box-sizing:border-box;}
 html,body{height:100%;}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;line-height:1.45;}
 h1,h2,h3,.brand{font-family:'Space Grotesk',sans-serif;}
-.wrap{max-width:640px;margin:0 auto;padding:0 16px 96px;}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px 96px;}
 header.top{position:sticky;top:0;background:var(--bg);z-index:10;padding:18px 16px 10px;border-bottom:1px solid var(--line);}
 header.top .wrap{padding:0;display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;}
 .brand{font-size:19px;font-weight:700;letter-spacing:-0.01em;}
@@ -34,8 +34,8 @@ header.top .wrap{padding:0;display:flex;align-items:baseline;justify-content:spa
 .status{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
 .status.ok{background:var(--paid-bg);color:var(--paid);}
 .status.bad{background:var(--owe-bg);color:var(--owe);}
-nav.tabs{display:flex;gap:6px;margin-top:14px;}
-nav.tabs button{flex:1;border:1px solid var(--line);background:var(--panel);color:var(--sub);padding:9px 6px;border-radius:10px;font-size:13.5px;font-weight:600;cursor:pointer;}
+nav.tabs{display:flex;gap:6px;margin-top:14px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+nav.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--sub);padding:9px 12px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;}
 nav.tabs button.active{background:var(--brand);color:var(--brand-ink);border-color:var(--brand);}
 main{padding-top:16px;}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
@@ -44,13 +44,14 @@ main{padding-top:16px;}
 .empty{text-align:center;padding:40px 20px;color:var(--sub);}
 .empty h3{color:var(--ink);margin-bottom:6px;}
 label{display:block;font-size:12.5px;color:var(--sub);margin:10px 0 4px;font-weight:600;}
-input[type=text],input[type=tel],input[type=number]{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:15px;}
-input:focus{outline:2px solid var(--brand);outline-offset:1px;}
+input[type=text],input[type=tel],input[type=number],input[type=date],select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink);font-size:15px;}
+input:focus,select:focus{outline:2px solid var(--brand);outline-offset:1px;}
 .row{display:flex;gap:8px;}
 .row>*{flex:1;}
 button.primary{background:var(--brand);color:var(--brand-ink);border:none;padding:11px 16px;border-radius:10px;font-weight:700;font-size:14.5px;cursor:pointer;width:100%;margin-top:14px;}
 button.ghost{background:transparent;border:1px dashed var(--line);color:var(--sub);padding:9px 12px;border-radius:9px;font-size:13.5px;cursor:pointer;width:100%;}
 .chip{display:inline-block;background:var(--brand-ink);color:var(--brand);border-radius:20px;padding:2px 10px;font-size:11.5px;font-weight:700;}
+.chip.done{background:var(--paid-bg);color:var(--paid);}
 .prod-row{display:grid;grid-template-columns:1fr 84px 26px;gap:6px;align-items:center;margin-bottom:6px;}
 .x{border:none;background:none;color:var(--sub);font-size:18px;cursor:pointer;line-height:1;}
 table.matrix{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
@@ -62,23 +63,31 @@ table.matrix input{width:52px;padding:5px;text-align:center;font-size:13.5px;}
 .totals{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;}
 .totals .line{display:flex;justify-content:space-between;padding:3px 0;font-size:13.5px;}
 .totals .line b{font-family:'Space Grotesk',sans-serif;}
-.order-card .meta{display:flex;justify-content:space-between;align-items:flex-start;}
+.order-head{display:flex;justify-content:space-between;align-items:center;cursor:pointer;gap:10px;}
+.order-head .left{display:flex;align-items:center;gap:10px;min-width:0;}
+.order-head .titles{min-width:0;}
+.order-head .titles h2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chev{transition:transform .2s;color:var(--sub);flex:0 0 auto;}
+.chev.open{transform:rotate(180deg);}
+.done-pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;color:var(--paid);background:var(--paid-bg);padding:3px 10px;border-radius:20px;flex:0 0 auto;}
+.done-pill .dot{width:7px;height:7px;border-radius:50%;background:var(--paid);}
+.order-body{margin-top:14px;border-top:1px solid var(--line);padding-top:14px;}
 .debt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);}
 .debt:last-child{border-bottom:none;}
 .debt .who{font-size:14px;}
 .debt .amt{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;}
 .debt.paid .amt{color:var(--paid);}
 .debt.pend .amt{color:var(--owe);}
-.actions{display:flex;gap:6px;}
+.actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;}
 .btn-sm{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;cursor:pointer;color:var(--ink);}
 .btn-bizum{background:var(--amber-bg);color:var(--amber);border-color:transparent;}
+.btn-revolut{background:var(--revolut-bg);color:var(--revolut);border-color:transparent;}
 .btn-paid{background:var(--paid-bg);color:var(--paid);border-color:transparent;}
 .status-pill{font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;}
 .status-pill.pend{background:var(--owe-bg);color:var(--owe);}
 .status-pill.paid{background:var(--paid-bg);color:var(--paid);}
-.addp-row{display:flex;gap:6px;margin-top:8px;}
-.addp-row input{flex:1;}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:30px;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50;}
+.mark-form{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:10px;}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:30px;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .25s;z-index:50;max-width:90vw;}
 .toast.show{opacity:1;}
 #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
 #login-screen .card{max-width:340px;width:100%;}
@@ -86,6 +95,13 @@ table.matrix input{width:52px;padding:5px;text-align:center;font-size:13.5px;}
 #login-screen p.muted{text-align:center;margin-bottom:4px;}
 #login-error{color:var(--owe);font-size:13px;margin-top:8px;min-height:16px;}
 .btn-logout{background:none;border:none;color:var(--sub);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;}
+.user-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);gap:10px;}
+.user-row:last-child{border-bottom:none;}
+.user-row .info b{display:block;font-size:14px;}
+.user-row .info span{font-size:12px;color:var(--sub);}
+.section-title{font-size:13px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.03em;margin:20px 0 8px;}
+.export-row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.export-row select{width:auto;flex:1;min-width:120px;font-size:12.5px;padding:7px 8px;}
 </style>
 </head>
 <body>
@@ -107,53 +123,52 @@ table.matrix input{width:52px;padding:5px;text-align:center;font-size:13.5px;}
   <div class="brand">Compra <span>Conjunta</span></div>
   <div style="display:flex;align-items:center;gap:8px">
     <span class="status" id="conn-status">Conectando…</span>
-    <button class="btn-sm" id="btn-export" type="button">Exportar CSV</button>
   </div>
 </div>
-<div class="wrap" style="display:flex;justify-content:space-between;align-items:center">
-<nav class="tabs" style="flex:1">
+<div class="wrap"><nav class="tabs">
   <button id="tab-pedidos" class="active">Pedidos</button>
   <button id="tab-nuevo">Nuevo pedido</button>
   <button id="tab-balances">Balances</button>
-</nav>
-</div>
+  <button id="tab-completados">Completados</button>
+  <button id="tab-usuarios">Usuarios</button>
+</nav></div>
 <div class="wrap" style="padding-top:8px;text-align:right"><button class="btn-logout" id="btn-logout" type="button">Cerrar sesión</button></div>
 </header>
 <div class="wrap"><main id="main"></main></div>
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 
 let supabase = null;
-let state = { orders: [], payments: {} };
+let state = { orders: [], payments: {}, users: [] };
 let view = "pedidos";
+let openOrderIds = new Set();
+let historyPageSize = 5;
+const TEN_DAYS = 10*24*60*60*1000;
 
 const toast = (msg) => {
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 1800);
+  setTimeout(()=>t.classList.remove('show'), 2200);
 };
 const setStatus = (ok, msg) => {
   const el = document.getElementById('conn-status');
   el.textContent = msg; el.className = 'status ' + (ok ? 'ok' : 'bad');
 };
-
 const fmt = (n) => (Math.round(n*100)/100).toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2}) + ' €';
+const fmtDate = (ms) => ms ? new Date(ms).toLocaleDateString('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'}) : '';
 const uid = () => Math.random().toString(36).slice(2,10);
+function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
+function escapeHtml(s){ return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function escapeAttr(s){ return escapeHtml(s); }
+function userById(id){ return state.users.find(u=>u.id===id); }
+function userName(id){ const u=userById(id); return u ? u.name : '—'; }
 
-// ---------- persistence (Supabase) ----------
-function rowToOrder(r){
-  return { id:r.id, supplier:r.supplier, ownerName:r.owner_name, ownerPhone:r.owner_phone,
-    transport:r.transport, products:r.products||[], people:r.people||[], qty:r.qty||{}, createdAt:r.created_at };
-}
-function orderToRow(o){
-  return { id:o.id, supplier:o.supplier, owner_name:o.ownerName, owner_phone:o.ownerPhone,
-    transport:o.transport, products:o.products, people:o.people, qty:o.qty, created_at:o.createdAt };
-}
-
+// ---------- auth ----------
 async function initAuth(){
   if(SUPABASE_URL.startsWith('YOUR_') || SUPABASE_ANON_KEY.startsWith('YOUR_')){
     document.getElementById('login-screen').style.display='flex';
@@ -162,12 +177,8 @@ async function initAuth(){
   }
   supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const { data: { session } } = await supabase.auth.getSession();
-  if(session){
-    showApp();
-  } else {
-    document.getElementById('login-screen').style.display='flex';
-  }
-  supabase.auth.onAuthStateChange((event, session)=>{
+  if(session){ showApp(); } else { document.getElementById('login-screen').style.display='flex'; }
+  supabase.auth.onAuthStateChange((event)=>{
     if(event === 'SIGNED_IN') showApp();
     if(event === 'SIGNED_OUT'){
       document.getElementById('app-root').style.display='none';
@@ -175,7 +186,6 @@ async function initAuth(){
     }
   });
 }
-
 document.getElementById('login-btn').onclick = async ()=>{
   const email = document.getElementById('login-email').value.trim();
   const password = document.getElementById('login-password').value;
@@ -191,26 +201,39 @@ async function showApp(){
   document.getElementById('login-screen').style.display='none';
   document.getElementById('app-root').style.display='block';
   await loadAll();
-  supabase.channel('orders-sync')
-    .on('postgres_changes', {event:'*', schema:'public', table:'orders'}, loadAll)
-    .subscribe();
-  supabase.channel('payments-sync')
-    .on('postgres_changes', {event:'*', schema:'public', table:'payments'}, loadAll)
-    .subscribe();
+  supabase.channel('sync-orders').on('postgres_changes', {event:'*', schema:'public', table:'orders'}, loadAll).subscribe();
+  supabase.channel('sync-payments').on('postgres_changes', {event:'*', schema:'public', table:'payments'}, loadAll).subscribe();
+  supabase.channel('sync-users').on('postgres_changes', {event:'*', schema:'public', table:'users'}, loadAll).subscribe();
   setStatus(true, 'Sincronizado');
 }
+
+// ---------- persistence ----------
+function rowToOrder(r){
+  return { id:r.id, supplier:r.supplier, ownerId:r.owner_id, transport:r.transport,
+    products:r.products||[], people:r.people||[], qty:r.qty||{}, createdAt:r.created_at,
+    status:r.status||'activo', completedAt:r.completed_at };
+}
+function orderToRow(o){
+  return { id:o.id, supplier:o.supplier, owner_id:o.ownerId, transport:o.transport,
+    products:o.products, people:o.people, qty:o.qty, created_at:o.createdAt,
+    status:o.status||'activo', completed_at:o.completedAt||null };
+}
 async function loadAll(){
-  const { data: orderRows, error: e1 } = await supabase.from('orders').select('*').order('created_at', {ascending:false});
-  const { data: paymentRows, error: e2 } = await supabase.from('payments').select('*');
-  if(e1 || e2){ setStatus(false, 'Error de conexión'); return; }
+  const [{data:orderRows,error:e1}, {data:paymentRows,error:e2}, {data:userRows,error:e3}] = await Promise.all([
+    supabase.from('orders').select('*').order('created_at',{ascending:false}),
+    supabase.from('payments').select('*'),
+    supabase.from('users').select('*').order('name',{ascending:true}),
+  ]);
+  if(e1||e2||e3){ setStatus(false,'Error de conexión'); return; }
   state.orders = (orderRows||[]).map(rowToOrder);
   state.payments = {};
-  (paymentRows||[]).forEach(p=>{ state.payments[p.key] = !!p.paid; });
-  setStatus(true, 'Sincronizado');
+  (paymentRows||[]).forEach(p=>{ state.payments[p.key] = {paid:!!p.paid, amount:p.amount, markedBy:p.marked_by, markedDate:p.marked_date}; });
+  state.users = userRows||[];
+  setStatus(true,'Sincronizado');
   render();
 }
 async function saveOrder(order){
-  if(!supabase) return toast('No se pudo guardar: revisa config.js');
+  if(!supabase) return;
   const { error } = await supabase.from('orders').upsert(orderToRow(order));
   if(error) toast('Error al guardar: '+error.message);
 }
@@ -219,10 +242,20 @@ async function deleteOrder(id){
   const { error } = await supabase.from('orders').delete().eq('id', id);
   if(error) toast('Error al eliminar: '+error.message);
 }
-async function setPaid(key, paid){
-  if(!supabase) return toast('No se pudo guardar: revisa config.js');
-  const { error } = await supabase.from('payments').upsert({ key, paid });
+async function savePayment(key, fields){
+  if(!supabase) return;
+  const { error } = await supabase.from('payments').upsert({ key, ...fields });
   if(error) toast('Error al guardar: '+error.message);
+}
+async function saveUser(u){
+  if(!supabase) return;
+  const { error } = await supabase.from('users').upsert(u);
+  if(error) toast('Error al guardar: '+error.message);
+}
+async function deleteUser(id){
+  if(!supabase) return;
+  const { error } = await supabase.from('users').delete().eq('id', id);
+  if(error) toast('Error al eliminar: '+error.message);
 }
 
 // ---------- calculation ----------
@@ -234,10 +267,7 @@ function computeOrderTotals(order){
   let orderSubtotal = 0;
   people.forEach(p=>{
     let sub = 0;
-    products.forEach(prod=>{
-      const n = Number((qty[p]||{})[prod.id]) || 0;
-      sub += n * prod.price;
-    });
+    products.forEach(prod=>{ sub += (Number((qty[p]||{})[prod.id])||0) * prod.price; });
     perPerson[p] = { subtotal: sub };
     orderSubtotal += sub;
   });
@@ -249,172 +279,210 @@ function computeOrderTotals(order){
   });
   return { perPerson, orderSubtotal, transport };
 }
-
 function computeNetDebts(){
   const ledger = {};
-  const add = (from,to,amt)=>{
-    if(from===to || amt<=0.004) return;
-    ledger[from] = ledger[from]||{};
-    ledger[from][to] = (ledger[from][to]||0) + amt;
-  };
+  const add=(from,to,amt)=>{ if(from===to||amt<=0.004) return; ledger[from]=ledger[from]||{}; ledger[from][to]=(ledger[from][to]||0)+amt; };
   state.orders.forEach(order=>{
     const {perPerson} = computeOrderTotals(order);
-    const owner = order.ownerName;
-    (order.people||[]).forEach(p=>{
-      if(p===owner) return;
-      add(p, owner, perPerson[p].total);
-    });
+    (order.people||[]).forEach(p=>{ if(p!==order.ownerId) add(p, order.ownerId, perPerson[p].total); });
   });
   const pairs = new Set();
-  Object.keys(ledger).forEach(a=>Object.keys(ledger[a]).forEach(b=>{
-    pairs.add([a,b].sort().join('||'));
-  }));
+  Object.keys(ledger).forEach(a=>Object.keys(ledger[a]).forEach(b=>pairs.add([a,b].sort().join('||'))));
   const nets = [];
-  pairs.forEach(key=>{
-    const [a,b] = key.split('||');
-    const ab = (ledger[a]&&ledger[a][b])||0;
-    const ba = (ledger[b]&&ledger[b][a])||0;
-    const diff = ab-ba;
+  pairs.forEach(k=>{
+    const [a,b] = k.split('||');
+    const diff = ((ledger[a]&&ledger[a][b])||0) - ((ledger[b]&&ledger[b][a])||0);
     if(Math.abs(diff) < 0.005) return;
-    const from = diff>0 ? a : b;
-    const to = diff>0 ? b : a;
-    nets.push({ from, to, amount: Math.abs(diff), key: from+'→'+to });
+    const from = diff>0?a:b, to = diff>0?b:a;
+    nets.push({ from, to, amount: Math.abs(diff), key: from+'::'+to });
   });
-  nets.sort((x,y)=> y.amount-x.amount);
+  nets.sort((x,y)=>y.amount-x.amount);
   return nets;
 }
-
-// ---------- rendering ----------
-function el(html){ const d=document.createElement('div'); d.innerHTML=html.trim(); return d.firstChild; }
-
-function getKnownPeople(){
-  const set = new Set();
-  state.orders.forEach(o=>{
-    if(o.ownerName) set.add(o.ownerName);
-    (o.people||[]).forEach(p=>set.add(p));
+function orderPendingPairs(order){
+  const {perPerson} = computeOrderTotals(order);
+  const nets = computeNetDebts();
+  const pending = [];
+  (order.people||[]).forEach(p=>{
+    if(p===order.ownerId) return;
+    const owed = perPerson[p].total;
+    if(owed<=0.004) return;
+    const net = nets.find(n=> n.key===(p+'::'+order.ownerId) || n.key===(order.ownerId+'::'+p));
+    if(!net) return;
+    const rec = state.payments[net.key];
+    if(!(rec && rec.paid)) pending.push({person:p, amount:net.amount});
   });
-  return Array.from(set).sort((a,b)=>a.localeCompare(b,'es'));
-}
-function drawPeopleDatalist(){
-  let dl = document.getElementById('known-people');
-  if(!dl){
-    dl = document.createElement('datalist');
-    dl.id = 'known-people';
-    document.body.appendChild(dl);
-  }
-  dl.innerHTML = getKnownPeople().map(p=>`<option value="${escapeAttr(p)}">`).join('');
+  return pending;
 }
 
+// ---------- render shell ----------
 function render(){
-  ['pedidos','nuevo','balances'].forEach(t=>{
+  ['pedidos','nuevo','balances','completados','usuarios'].forEach(t=>{
     document.getElementById('tab-'+t).classList.toggle('active', t===view);
   });
-  drawPeopleDatalist();
+  refreshUserDatalist();
   const main = document.getElementById('main');
   main.innerHTML = '';
-  if(view==='pedidos') main.appendChild(renderPedidos());
+  if(view==='pedidos') main.appendChild(renderPedidos(false));
   if(view==='nuevo') main.appendChild(renderNuevo());
   if(view==='balances') main.appendChild(renderBalances());
+  if(view==='completados') main.appendChild(renderPedidos(true));
+  if(view==='usuarios') main.appendChild(renderUsuarios());
 }
+function refreshUserDatalist(){} // reserved, selects rebuilt inline
 
-function renderPedidos(){
+// ---------- Pedidos (activos / completados) ----------
+function splitOrders(){
+  const now = Date.now();
+  const active = [], archived = [];
+  state.orders.forEach(o=>{
+    const isOldCompleted = o.status==='completado' && o.completedAt && (now-o.completedAt >= TEN_DAYS);
+    (isOldCompleted ? archived : active).push(o);
+  });
+  return {active, archived};
+}
+function renderPedidos(archivedMode){
+  const {active, archived} = splitOrders();
+  const list = archivedMode ? archived : active;
   const wrap = document.createElement('div');
-  if(!state.orders.length){
-    wrap.appendChild(el(`<div class="card empty"><h3>Todavía no hay pedidos</h3><p class="muted">Crea el primer pedido a un proveedor desde la pestaña "Nuevo pedido".</p></div>`));
+  if(!list.length){
+    wrap.appendChild(el(`<div class="card empty"><h3>${archivedMode?'Todavía no hay pedidos completados':'Todavía no hay pedidos'}</h3><p class="muted">${archivedMode?'Los pedidos completados hace más de 10 días aparecerán aquí.':'Crea el primer pedido desde la pestaña "Nuevo pedido".'}</p></div>`));
     return wrap;
   }
-  state.orders.forEach(order=>{
-    const {perPerson, orderSubtotal, transport} = computeOrderTotals(order);
-    const card = el(`<div class="card order-card">
-      <div class="meta">
-        <div>
-          <span class="chip">${escapeHtml(order.supplier||'Proveedor')}</span>
-          <h2 style="margin-top:8px">${escapeHtml(order.supplier||'')}</h2>
-          <p class="muted">Organiza ${escapeHtml(order.ownerName||'—')} · ${escapeHtml(order.ownerPhone||'sin teléfono')}</p>
-        </div>
-      </div>
-      <div class="mtable-wrap"></div>
-      <div class="addp-row">
-        <input type="text" placeholder="Añadir persona" list="known-people" data-add-person="${order.id}">
-        <button class="btn-sm" data-add-person-btn="${order.id}">Añadir</button>
-      </div>
-      <div class="totals" data-totals></div>
-      <div class="row" style="margin-top:12px">
-        <button class="btn-sm" data-del="${order.id}">Eliminar pedido</button>
-      </div>
-    </div>`);
-    card.querySelector('.mtable-wrap').appendChild(renderMatrix(order));
-    const totalsEl = card.querySelector('[data-totals]');
-    (order.people||[]).forEach(p=>{
-      totalsEl.appendChild(el(`<div class="line"><span>${escapeHtml(p)}${p===order.ownerName?' <span class="muted">(cobra)</span>':''}</span><b>${fmt(perPerson[p].total)}</b></div>`));
-    });
-    totalsEl.appendChild(el(`<div class="line muted"><span>Subtotal productos</span><span>${fmt(orderSubtotal)}</span></div>`));
-    totalsEl.appendChild(el(`<div class="line muted"><span>Transporte</span><span>${fmt(transport)}</span></div>`));
-    card.querySelector('[data-del]').onclick = ()=>{ if(confirm('¿Eliminar este pedido?')) deleteOrder(order.id); };
-    const addBtn = card.querySelector('[data-add-person-btn]');
-    addBtn.onclick = ()=>{
-      const input = card.querySelector('[data-add-person]');
-      const name = input.value.trim();
-      if(!name) return;
-      const people = order.people||[];
-      if(people.includes(name)) return toast('Esa persona ya está en la tabla');
-      const next = {...order, people:[...people, name]};
-      saveOrder(next); input.value='';
-    };
-    wrap.appendChild(card);
-  });
+  list.forEach(order=> wrap.appendChild(renderOrderCard(order, archivedMode)));
   return wrap;
 }
+function renderOrderCard(order, archivedMode){
+  const isOpen = openOrderIds.has(order.id);
+  const isDone = order.status==='completado';
+  const card = el(`<div class="card order-card">
+    <div class="order-head" data-toggle>
+      <div class="left">
+        <span class="chev ${isOpen?'open':''}">▾</span>
+        <div class="titles">
+          <h2>${escapeHtml(order.supplier||'Proveedor')}</h2>
+          <p class="muted">Organiza ${escapeHtml(userName(order.ownerId))}</p>
+        </div>
+      </div>
+      ${isDone ? `<span class="done-pill"><span class="dot"></span>Completo</span>` : ''}
+    </div>
+    <div class="order-body" data-body style="display:${isOpen?'block':'none'}"></div>
+  </div>`);
+  card.querySelector('[data-toggle]').onclick = ()=>{
+    if(openOrderIds.has(order.id)) openOrderIds.delete(order.id); else openOrderIds.add(order.id);
+    render();
+  };
+  if(isOpen) fillOrderBody(card.querySelector('[data-body]'), order, archivedMode);
+  return card;
+}
+function fillOrderBody(body, order, archivedMode){
+  const {perPerson, orderSubtotal, transport} = computeOrderTotals(order);
+  body.appendChild(renderMatrix(order));
+  const addRow = el(`<div class="row" style="margin-top:8px;gap:6px">
+    <select data-add-person style="flex:1"></select>
+    <button class="btn-sm" data-add-person-btn type="button" style="width:auto">Añadir</button>
+  </div>`);
+  const sel = addRow.querySelector('[data-add-person]');
+  const already = new Set(order.people||[]);
+  sel.innerHTML = `<option value="">Añadir persona…</option>` + state.users.filter(u=>!already.has(u.id)).map(u=>`<option value="${u.id}">${escapeHtml(u.name)}</option>`).join('');
+  addRow.querySelector('[data-add-person-btn]').onclick = ()=>{
+    if(!sel.value) return;
+    saveOrder({...order, people:[...(order.people||[]), sel.value]});
+  };
+  body.appendChild(addRow);
+  const totalsEl = el('<div class="totals"></div>');
+  (order.people||[]).forEach(p=>{
+    totalsEl.appendChild(el(`<div class="line"><span>${escapeHtml(userName(p))}${p===order.ownerId?' <span class="muted">(cobra)</span>':''}</span><b>${fmt(perPerson[p].total)}</b></div>`));
+  });
+  totalsEl.appendChild(el(`<div class="line muted"><span>Subtotal productos</span><span>${fmt(orderSubtotal)}</span></div>`));
+  totalsEl.appendChild(el(`<div class="line muted"><span>Transporte</span><span>${fmt(transport)}</span></div>`));
+  body.appendChild(totalsEl);
 
+  // export controls
+  const exp = el(`<div class="export-row">
+    <select data-orient><option value="rows">Productos en filas</option><option value="cols">Productos en columnas</option></select>
+    <button class="btn-sm" data-exp-csv type="button">CSV</button>
+    <button class="btn-sm" data-exp-xlsx type="button">Excel</button>
+  </div>`);
+  exp.querySelector('[data-exp-csv]').onclick = ()=> exportOrder(order, exp.querySelector('[data-orient]').value, 'csv');
+  exp.querySelector('[data-exp-xlsx]').onclick = ()=> exportOrder(order, exp.querySelector('[data-orient]').value, 'xlsx');
+  body.appendChild(exp);
+
+  // actions
+  const actions = el(`<div class="actions" style="margin-top:14px;justify-content:flex-start">
+    <button class="btn-sm" data-edit type="button">Editar</button>
+    <button class="btn-sm" data-del type="button">Eliminar</button>
+    ${order.status!=='completado' ? `<button class="btn-sm btn-paid" data-complete type="button">Marcar completado</button>` : `<button class="btn-sm" data-reopen type="button">Reabrir pedido</button>`}
+  </div>`);
+  actions.querySelector('[data-del]').onclick = ()=>{ if(confirm('¿Eliminar este pedido?')) deleteOrder(order.id); };
+  actions.querySelector('[data-edit]').onclick = ()=> openEditOrder(order);
+  const completeBtn = actions.querySelector('[data-complete]');
+  if(completeBtn) completeBtn.onclick = ()=>{
+    const pending = orderPendingPairs(order);
+    if(pending.length){
+      const detail = pending.map(p=>`${userName(p.person)}: ${fmt(p.amount)}`).join(', ');
+      if(!confirm('Quedan saldos pendientes relacionados con este pedido ('+detail+'). ¿Marcar igualmente como completado?')) return;
+    }
+    saveOrder({...order, status:'completado', completedAt: Date.now()});
+  };
+  const reopenBtn = actions.querySelector('[data-reopen]');
+  if(reopenBtn) reopenBtn.onclick = ()=> saveOrder({...order, status:'activo', completedAt:null});
+  body.appendChild(actions);
+}
 function renderMatrix(order){
-  const products = order.products||[];
-  const people = order.people||[];
-  const qty = order.qty||{};
+  const products = order.products||[], people = order.people||[], qty = order.qty||{};
   const t = document.createElement('table');
   t.className = 'matrix';
-  let head = '<tr><th>Persona</th>' + products.map(p=>`<th>${escapeHtml(p.name)}<br><span style="font-weight:400">${fmt(p.price)}</span></th>`).join('') + '</tr>';
-  t.innerHTML = head;
+  t.innerHTML = '<tr><th>Persona</th>' + products.map(p=>`<th>${escapeHtml(p.name)}<br><span style="font-weight:400">${fmt(p.price)}</span></th>`).join('') + '</tr>';
   people.forEach(person=>{
     const tr = document.createElement('tr');
-    let cells = `<td>${escapeHtml(person)}</td>`;
+    let cells = `<td>${escapeHtml(userName(person))}</td>`;
     products.forEach(prod=>{
       const val = (qty[person]||{})[prod.id] || '';
-      cells += `<td><input type="number" min="0" step="1" value="${val}" data-qty-order="${order.id}" data-qty-person="${escapeAttr(person)}" data-qty-prod="${prod.id}"></td>`;
+      cells += `<td><input type="number" min="0" step="1" value="${val}" data-qty-order="${order.id}" data-qty-person="${person}" data-qty-prod="${prod.id}"></td>`;
     });
-    tr.innerHTML = cells;
-    t.appendChild(tr);
+    tr.innerHTML = cells; t.appendChild(tr);
   });
   t.querySelectorAll('input[data-qty-order]').forEach(inp=>{
     inp.addEventListener('change', ()=>{
-      const oid = inp.dataset.qtyOrder, person = inp.dataset.qtyPerson, pid = inp.dataset.qtyProd;
-      const cur = state.orders.find(o=>o.id===oid);
-      if(!cur) return;
+      const oid=inp.dataset.qtyOrder, person=inp.dataset.qtyPerson, pid=inp.dataset.qtyProd;
+      const cur = state.orders.find(o=>o.id===oid); if(!cur) return;
       const nextQty = JSON.parse(JSON.stringify(cur.qty||{}));
-      nextQty[person] = nextQty[person]||{};
-      nextQty[person][pid] = Number(inp.value)||0;
+      nextQty[person] = nextQty[person]||{}; nextQty[person][pid] = Number(inp.value)||0;
       saveOrder({...cur, qty: nextQty});
     });
   });
   return t;
 }
 
+// ---------- Nuevo pedido (+ copiar anterior, + edición) ----------
 let draftProducts = [{id:uid(), name:'', price:''}];
+let editingOrderId = null;
+function openEditOrder(order){
+  editingOrderId = order.id;
+  draftProducts = (order.products||[]).map(p=>({...p}));
+  view = 'nuevo'; render();
+  document.getElementById('f-supplier').value = order.supplier||'';
+  document.getElementById('f-owner').value = order.ownerId||'';
+  document.getElementById('f-transport').value = order.transport||'';
+}
 function renderNuevo(){
+  const isEdit = !!editingOrderId;
   const wrap = el(`<div class="card">
-    <h2>Nuevo pedido</h2>
-    <p class="muted">Rellena los datos del proveedor y quién lo organiza.</p>
+    <h2>${isEdit?'Editar pedido':'Nuevo pedido'}</h2>
+    <p class="muted">${isEdit?'Modifica los datos del pedido.':'Rellena los datos del proveedor y quién lo organiza.'}</p>
+    ${!isEdit ? `<label>Copiar productos de un pedido anterior</label><select id="f-copy"><option value="">— Empezar en blanco —</option>${state.orders.map(o=>`<option value="${o.id}">${escapeHtml(o.supplier)} (${fmtDate(o.createdAt)})</option>`).join('')}</select>` : ''}
     <label>Proveedor</label>
     <input type="text" id="f-supplier" placeholder="Ej. Cooperativa Ecológica">
     <div class="row">
-      <div><label>Persona que organiza</label><input type="text" id="f-owner" list="known-people" placeholder="Nombre"></div>
-      <div><label>Teléfono (Bizum)</label><input type="tel" id="f-phone" placeholder="600 000 000"></div>
+      <div><label>Persona que organiza</label><select id="f-owner"><option value="">Selecciona…</option>${state.users.map(u=>`<option value="${u.id}">${escapeHtml(u.name)}</option>`).join('')}</select></div>
+      <div><label>Transporte total</label><input type="number" id="f-transport" min="0" step="0.01" placeholder="0,00"></div>
     </div>
-    <label>Coste de transporte total</label>
-    <input type="number" id="f-transport" min="0" step="0.01" placeholder="0,00">
     <label>Productos</label>
     <div id="f-products"></div>
     <button class="ghost" id="f-addprod" type="button">+ Añadir producto</button>
-    <button class="primary" id="f-create" type="button">Crear pedido</button>
+    <button class="primary" id="f-create" type="button">${isEdit?'Guardar cambios':'Crear pedido'}</button>
+    ${isEdit ? `<button class="ghost" id="f-cancel" type="button" style="margin-top:8px">Cancelar edición</button>` : ''}
   </div>`);
   const prodWrap = wrap.querySelector('#f-products');
   function drawProducts(){
@@ -425,130 +493,252 @@ function renderNuevo(){
         <input type="number" placeholder="Precio €" min="0" step="0.01" value="${p.price}" data-p="${i}" data-f="price">
         <button class="x" data-rm="${i}" type="button">✕</button>
       </div>`);
-      row.querySelectorAll('input').forEach(inp=>{
-        inp.oninput = ()=>{ draftProducts[inp.dataset.p][inp.dataset.f] = inp.value; };
-      });
+      row.querySelectorAll('input').forEach(inp=> inp.oninput = ()=>{ draftProducts[inp.dataset.p][inp.dataset.f] = inp.value; });
       row.querySelector('[data-rm]').onclick = ()=>{ draftProducts.splice(i,1); if(!draftProducts.length) draftProducts=[{id:uid(),name:'',price:''}]; drawProducts(); };
       prodWrap.appendChild(row);
     });
   }
   drawProducts();
   wrap.querySelector('#f-addprod').onclick = ()=>{ draftProducts.push({id:uid(),name:'',price:''}); drawProducts(); };
+  const copySel = wrap.querySelector('#f-copy');
+  if(copySel) copySel.onchange = ()=>{
+    if(!copySel.value) return;
+    const src = state.orders.find(o=>o.id===copySel.value);
+    if(!src) return;
+    wrap.querySelector('#f-supplier').value = src.supplier||'';
+    wrap.querySelector('#f-owner').value = src.ownerId||'';
+    wrap.querySelector('#f-transport').value = src.transport||'';
+    draftProducts = (src.products||[]).map(p=>({id:uid(), name:p.name, price:p.price}));
+    drawProducts();
+    toast('Productos copiados — la lista de personas empieza vacía');
+  };
+  const cancelBtn = wrap.querySelector('#f-cancel');
+  if(cancelBtn) cancelBtn.onclick = ()=>{ editingOrderId=null; draftProducts=[{id:uid(),name:'',price:''}]; view='pedidos'; render(); };
   wrap.querySelector('#f-create').onclick = ()=>{
     const supplier = wrap.querySelector('#f-supplier').value.trim();
-    const owner = wrap.querySelector('#f-owner').value.trim();
-    const phone = wrap.querySelector('#f-phone').value.trim();
+    const ownerId = wrap.querySelector('#f-owner').value;
     const transport = Number(wrap.querySelector('#f-transport').value)||0;
-    const products = draftProducts.filter(p=>p.name.trim() && Number(p.price)>0)
-      .map(p=>({id:p.id, name:p.name.trim(), price:Number(p.price)}));
-    if(!supplier || !owner || !products.length){
-      return toast('Falta proveedor, organizador o algún producto válido');
+    const products = draftProducts.filter(p=>p.name.trim() && Number(p.price)>0).map(p=>({id:p.id, name:p.name.trim(), price:Number(p.price)}));
+    if(!supplier || !ownerId || !products.length) return toast('Falta proveedor, organizador o algún producto válido');
+    if(isEdit){
+      const cur = state.orders.find(o=>o.id===editingOrderId);
+      saveOrder({...cur, supplier, ownerId, transport, products});
+      toast('Pedido actualizado');
+    } else {
+      const order = { id: uid(), supplier, ownerId, transport, products, people:[ownerId], qty:{}, createdAt: Date.now(), status:'activo', completedAt:null };
+      saveOrder(order);
+      toast('Pedido creado');
     }
-    const order = {
-      id: uid(), supplier, ownerName: owner, ownerPhone: phone,
-      transport, products, people:[owner], qty:{}, createdAt: Date.now()
-    };
-    saveOrder(order);
-    draftProducts = [{id:uid(),name:'',price:''}];
+    editingOrderId = null; draftProducts=[{id:uid(),name:'',price:''}];
     view='pedidos'; render();
-    toast('Pedido creado');
   };
   return wrap;
 }
 
-function renderBalances(){
+// ---------- Balances ----------
+function allBalanceRecords(){
   const nets = computeNetDebts();
+  const byKey = {};
+  nets.forEach(n=> byKey[n.key] = { ...n });
+  Object.keys(state.payments).forEach(k=>{
+    const rec = state.payments[k];
+    if(rec.paid){
+      const [from,to] = k.split('::');
+      byKey[k] = { key:k, from, to, amount: rec.amount!=null?rec.amount:(byKey[k]?byKey[k].amount:0), paid:true, markedBy:rec.markedBy, markedDate:rec.markedDate };
+    } else if(byKey[k]){
+      byKey[k].paid = false;
+    }
+  });
+  return Object.values(byKey).filter(r=>r.amount>0.004 || r.paid);
+}
+function renderBalances(){
+  const all = allBalanceRecords();
+  const now = Date.now();
+  const openList = all.filter(r=>!r.paid);
+  const recentPaid = all.filter(r=>r.paid && (!r.markedDate || now-r.markedDate < TEN_DAYS));
+  const oldPaid = all.filter(r=>r.paid && r.markedDate && now-r.markedDate >= TEN_DAYS)
+    .sort((a,b)=> (b.markedDate||0)-(a.markedDate||0));
   const wrap = document.createElement('div');
-  if(!nets.length){
+  if(!openList.length && !recentPaid.length && !oldPaid.length){
     wrap.appendChild(el(`<div class="card empty"><h3>Nada pendiente</h3><p class="muted">En cuanto haya pedidos con cantidades, aquí aparecerán las deudas netas entre personas.</p></div>`));
     return wrap;
   }
-  const card = el(`<div class="card"><h2>Balances netos</h2><p class="muted">Deudas ya compensadas entre todos los pedidos.</p></div>`);
-  nets.forEach(n=>{
-    const key = n.key;
-    const paid = !!state.payments[key];
-    const row = el(`<div class="debt ${paid?'paid':'pend'}">
-      <div>
-        <div class="who">${escapeHtml(n.from)} → ${escapeHtml(n.to)}</div>
-        <span class="status-pill ${paid?'paid':'pend'}">${paid?'Pagado':'Pendiente'}</span>
-      </div>
-      <div style="text-align:right">
-        <div class="amt">${fmt(n.amount)}</div>
-        <div class="actions" style="margin-top:6px">
-          ${!paid ? `<button class="btn-sm btn-bizum" data-bizum="${key}">Bizum</button>` : ''}
-          <button class="btn-sm ${paid?'':'btn-paid'}" data-toggle="${key}">${paid?'Marcar pendiente':'Marcar pagado'}</button>
-        </div>
-      </div>
-    </div>`);
-    row.querySelector('[data-toggle]').onclick = ()=> setPaid(key, !paid);
-    const bizumBtn = row.querySelector('[data-bizum]');
-    if(bizumBtn){
-      bizumBtn.onclick = ()=>{
-        const owner = state.orders.find(o=>o.ownerName===n.to);
-        const phone = owner ? owner.ownerPhone : '';
-        const text = `Bizum a ${n.to}${phone?` (${phone})`:''}: ${fmt(n.amount)} — Compra Conjunta`;
+  const card = el(`<div class="card"><h2>Balances</h2><p class="muted">Deudas ya compensadas entre todos los pedidos.</p></div>`);
+  [...openList.sort((a,b)=>b.amount-a.amount), ...recentPaid.sort((a,b)=>(b.markedDate||0)-(a.markedDate||0))]
+    .forEach(r=> card.appendChild(renderDebtRow(r)));
+  wrap.appendChild(card);
+  if(oldPaid.length){
+    wrap.appendChild(el(`<div class="section-title">Historial de pagos</div>`));
+    const histCard = el(`<div class="card"></div>`);
+    const shown = oldPaid.slice(0, historyPageSize);
+    shown.forEach(r=> histCard.appendChild(renderDebtRow(r)));
+    if(oldPaid.length > historyPageSize){
+      const more = el(`<button class="ghost" type="button">Mostrar más (${oldPaid.length - historyPageSize} restantes)</button>`);
+      more.onclick = ()=>{ historyPageSize += 10; render(); };
+      histCard.appendChild(more);
+    }
+    wrap.appendChild(histCard);
+  }
+  return wrap;
+}
+function renderDebtRow(r){
+  const row = el(`<div class="debt ${r.paid?'paid':'pend'}">
+    <div>
+      <div class="who">${escapeHtml(userName(r.from))} → ${escapeHtml(userName(r.to))}</div>
+      <span class="status-pill ${r.paid?'paid':'pend'}">${r.paid?'Pagado':'Pendiente'}</span>
+      ${r.paid ? `<div class="muted" style="margin-top:4px">Por ${escapeHtml(r.markedBy||'—')} · ${fmtDate(r.markedDate)}</div>` : ''}
+    </div>
+    <div style="text-align:right">
+      <div class="amt">${fmt(r.amount)}</div>
+      <div class="actions" style="margin-top:6px" data-actions></div>
+    </div>
+  </div>`);
+  const actions = row.querySelector('[data-actions]');
+  if(!r.paid){
+    const toUser = userById(r.to);
+    if(toUser && toUser.phone){
+      const b = el(`<button class="btn-sm btn-bizum" type="button">Bizum</button>`);
+      b.onclick = ()=>{
+        const text = `Bizum a ${toUser.name} (${toUser.phone}): ${fmt(r.amount)} — Compra Conjunta`;
         navigator.clipboard && navigator.clipboard.writeText(text).catch(()=>{});
         toast('Resumen copiado: '+text);
       };
+      actions.appendChild(b);
     }
-    card.appendChild(row);
+    if(toUser && toUser.revolut_handle){
+      const rb = el(`<button class="btn-sm btn-revolut" type="button">Revolut</button>`);
+      rb.onclick = ()=>{
+        const url = `https://revolut.me/${toUser.revolut_handle}/${r.amount.toFixed(2)}EUR`;
+        window.open(url, '_blank');
+      };
+      actions.appendChild(rb);
+    }
+    const markBtn = el(`<button class="btn-sm btn-paid" type="button">Marcar pagado</button>`);
+    markBtn.onclick = ()=> toggleMarkForm(row, r);
+    actions.appendChild(markBtn);
+  } else {
+    const undo = el(`<button class="btn-sm" type="button">Marcar pendiente</button>`);
+    undo.onclick = ()=> savePayment(r.key, {paid:false, amount:r.amount, marked_by:null, marked_date:null});
+    actions.appendChild(undo);
+  }
+  return row;
+}
+function toggleMarkForm(row, r){
+  if(row.querySelector('.mark-form')){ row.querySelector('.mark-form').remove(); return; }
+  const today = new Date().toISOString().slice(0,10);
+  const form = el(`<div class="mark-form">
+    <label>¿Quién lo marca como pagado?</label>
+    <input type="text" data-who placeholder="Tu nombre">
+    <label>Fecha de pago</label>
+    <input type="date" data-date value="${today}">
+    <button class="primary" data-confirm type="button" style="margin-top:10px">Confirmar</button>
+  </div>`);
+  form.querySelector('[data-confirm]').onclick = ()=>{
+    const who = form.querySelector('[data-who]').value.trim();
+    const dateVal = form.querySelector('[data-date]').value;
+    if(!who) return toast('Indica quién lo marca como pagado');
+    const ms = dateVal ? new Date(dateVal+'T12:00:00').getTime() : Date.now();
+    savePayment(r.key, {paid:true, amount:r.amount, marked_by:who, marked_date:ms});
+  };
+  row.appendChild(form);
+}
+
+// ---------- Usuarios ----------
+function renderUsuarios(){
+  const wrap = document.createElement('div');
+  const listCard = el(`<div class="card"><h2>Personas del grupo</h2><p class="muted">Añade aquí a cada persona una vez, con su teléfono y usuario de Revolut.</p><div data-list></div></div>`);
+  const listEl = listCard.querySelector('[data-list]');
+  if(!state.users.length) listEl.appendChild(el(`<p class="muted">Todavía no hay nadie añadido.</p>`));
+  state.users.forEach(u=>{
+    const row = el(`<div class="user-row">
+      <div class="info"><b>${escapeHtml(u.name)}</b><span>${escapeHtml(u.phone||'sin teléfono')}${u.revolut_handle?' · @'+escapeHtml(u.revolut_handle):''}</span></div>
+      <div class="actions">
+        <button class="btn-sm" data-edit type="button">Editar</button>
+        <button class="btn-sm" data-del type="button">Eliminar</button>
+      </div>
+    </div>`);
+    row.querySelector('[data-del]').onclick = ()=>{ if(confirm('¿Eliminar a '+u.name+'?')) deleteUser(u.id); };
+    row.querySelector('[data-edit]').onclick = ()=> openUserForm(u);
+    listEl.appendChild(row);
   });
-  wrap.appendChild(card);
+  wrap.appendChild(listCard);
+  wrap.appendChild(renderUserForm());
   return wrap;
 }
-
-function csvEscape(v){
-  const s = String(v??'');
-  return /[",\n;]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+let editingUser = null;
+function openUserForm(u){ editingUser = u; view='usuarios'; render(); }
+function renderUserForm(){
+  const u = editingUser || {};
+  const card = el(`<div class="card">
+    <h2>${editingUser?'Editar persona':'Añadir persona'}</h2>
+    <label>Nombre</label>
+    <input type="text" id="u-name" value="${escapeAttr(u.name||'')}">
+    <label>Teléfono (para Bizum)</label>
+    <input type="tel" id="u-phone" value="${escapeAttr(u.phone||'')}">
+    <label>Usuario de Revolut (opcional)</label>
+    <input type="text" id="u-revolut" placeholder="sin @" value="${escapeAttr(u.revolut_handle||'')}">
+    <button class="primary" id="u-save" type="button">${editingUser?'Guardar cambios':'Añadir'}</button>
+    ${editingUser?`<button class="ghost" id="u-cancel" type="button" style="margin-top:8px">Cancelar</button>`:''}
+  </div>`);
+  const cancelBtn = card.querySelector('#u-cancel');
+  if(cancelBtn) cancelBtn.onclick = ()=>{ editingUser=null; render(); };
+  card.querySelector('#u-save').onclick = ()=>{
+    const name = card.querySelector('#u-name').value.trim();
+    const phone = card.querySelector('#u-phone').value.trim();
+    const revolutHandle = card.querySelector('#u-revolut').value.trim().replace(/^@/,'');
+    if(!name) return toast('Falta el nombre');
+    saveUser({ id: editingUser ? editingUser.id : uid(), name, phone, revolut_handle: revolutHandle||null });
+    editingUser = null; render();
+  };
+  return card;
 }
-function buildCSV(){
-  const rows = [];
-  rows.push(['PEDIDOS']);
-  rows.push(['Proveedor','Organizador','Teléfono','Persona','Producto','Cantidad','Precio unidad','Importe producto','Transporte prorrateado','Total a pagar']);
-  state.orders.forEach(order=>{
-    const {perPerson} = computeOrderTotals(order);
-    (order.people||[]).forEach(person=>{
-      const items = (order.products||[]).filter(prod => Number((order.qty&&order.qty[person]&&order.qty[person][prod.id])||0) > 0);
-      if(!items.length){
-        rows.push([order.supplier, order.ownerName, order.ownerPhone, person, '', '', '', '', perPerson[person].transport.toFixed(2), perPerson[person].total.toFixed(2)]);
-      } else {
-        items.forEach((prod,i)=>{
-          const n = Number(order.qty[person][prod.id])||0;
-          rows.push([order.supplier, order.ownerName, order.ownerPhone, person, prod.name, n, prod.price.toFixed(2), (n*prod.price).toFixed(2),
-            i===0 ? perPerson[person].transport.toFixed(2) : '', i===0 ? perPerson[person].total.toFixed(2) : '']);
-        });
-      }
+
+// ---------- Export per pedido ----------
+function exportOrder(order, orientation, format){
+  const {perPerson} = computeOrderTotals(order);
+  const products = order.products||[], people = order.people||[];
+  let aoa;
+  if(orientation==='rows'){
+    aoa = [['Producto', ...people.map(p=>userName(p)), 'Precio unidad', 'Total unidades']];
+    products.forEach(prod=>{
+      const row = [prod.name];
+      let totalUnits = 0;
+      people.forEach(p=>{ const n = Number((order.qty[p]||{})[prod.id])||0; totalUnits+=n; row.push(n); });
+      row.push(prod.price.toFixed(2));
+      row.push(totalUnits);
+      aoa.push(row);
     });
-  });
-  rows.push([]);
-  rows.push(['BALANCES NETOS']);
-  rows.push(['De','A','Importe','Estado']);
-  computeNetDebts().forEach(n=>{
-    const paid = !!state.payments[n.key];
-    rows.push([n.from, n.to, n.amount.toFixed(2), paid?'Pagado':'Pendiente']);
-  });
-  return '\uFEFF' + rows.map(r=>r.map(csvEscape).join(';')).join('\n');
+    aoa.push(['TOTAL A PAGAR', ...people.map(p=>perPerson[p].total.toFixed(2)), '', '']);
+  } else {
+    aoa = [['Persona', ...products.map(p=>p.name), 'Transporte', 'Total a pagar']];
+    people.forEach(p=>{
+      const row = [userName(p)];
+      products.forEach(prod=> row.push(Number((order.qty[p]||{})[prod.id])||0));
+      row.push(perPerson[p].transport.toFixed(2));
+      row.push(perPerson[p].total.toFixed(2));
+      aoa.push(row);
+    });
+  }
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  const filename = 'pedido-'+(order.supplier||'proveedor').replace(/[^a-z0-9]+/gi,'-').toLowerCase()+'-'+new Date().toISOString().slice(0,10);
+  if(format==='csv'){
+    const csv = '\uFEFF' + XLSX.utils.sheet_to_csv(ws, {FS:';'});
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename+'.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+  } else {
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Pedido');
+    XLSX.writeFile(wb, filename+'.xlsx');
+  }
 }
-function exportCSV(){
-  if(!state.orders.length) return toast('Todavía no hay pedidos que exportar');
-  const csv = buildCSV();
-  const filename = 'compra-conjunta-'+new Date().toISOString().slice(0,10)+'.csv';
-  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = filename;
-  document.body.appendChild(a); a.click(); a.remove();
-}
-document.getElementById('btn-export').onclick = exportCSV;
-
-function escapeHtml(s){ return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-function escapeAttr(s){ return escapeHtml(s); }
 
 document.getElementById('tab-pedidos').onclick = ()=>{ view='pedidos'; render(); };
-document.getElementById('tab-nuevo').onclick = ()=>{ view='nuevo'; render(); };
+document.getElementById('tab-nuevo').onclick = ()=>{ editingOrderId=null; draftProducts=[{id:uid(),name:'',price:''}]; view='nuevo'; render(); };
 document.getElementById('tab-balances').onclick = ()=>{ view='balances'; render(); };
+document.getElementById('tab-completados').onclick = ()=>{ view='completados'; render(); };
+document.getElementById('tab-usuarios').onclick = ()=>{ editingUser=null; view='usuarios'; render(); };
 
-render();
 initAuth();
 </script>
 </body>
